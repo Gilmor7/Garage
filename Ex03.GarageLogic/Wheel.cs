@@ -39,21 +39,21 @@ namespace Ex03.GarageLogic
             }
             set
             {
-                setCurrentAirPressure(value, MaxAirPressure);
+                setCurrentAirPressure(value, r_MaxAirPressure);
             }
         }
 
         public void Inflate(float i_AirPressureToAdd)
         {
             float maxAirPressureToAdd = getMaxAirPressureToAdd();
-            float airPressureToSet = CurrentAirPressure + i_AirPressureToAdd;
+            float airPressureToSet = m_CurrentAirPressure + i_AirPressureToAdd;
 
             setCurrentAirPressure(airPressureToSet, maxAirPressureToAdd);
         }
 
         public void InflateToMax()
         {
-            m_CurrentAirPressure = MaxAirPressure;
+            m_CurrentAirPressure = r_MaxAirPressure;
         }
 
         private void setCurrentAirPressure(float i_PressureToSet, float i_MaxPossiblePressure)
@@ -78,7 +78,7 @@ The allowed amount is between {0} to {1}",
 
         private float getMaxAirPressureToAdd()
         {
-            return MaxAirPressure - m_CurrentAirPressure;
+            return r_MaxAirPressure - m_CurrentAirPressure;
         }
 
         public override string ToString()
@@ -87,9 +87,9 @@ The allowed amount is between {0} to {1}",
                 @"Manufacturer name: {0}
 Current air pressure: {1}
 Max air pressure: {2}",
-                ManufacturerName,
-                CurrentAirPressure,
-                MaxAirPressure);
+                r_ManufacturerName,
+                m_CurrentAirPressure,
+                r_MaxAirPressure);
 
             return wheelInfo;
         }
