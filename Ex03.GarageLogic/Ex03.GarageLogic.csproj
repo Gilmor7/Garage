@@ -38,5 +38,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Battery.cs" />
+    <Compile Include="Fuel.cs" />
+    <Compile Include="ValueOutOfRangeException.cs" />
+    <Compile Include="Vehicle.cs" />
+    <Compile Include="VehicleEnergySource.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
