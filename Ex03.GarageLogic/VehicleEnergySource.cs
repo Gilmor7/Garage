@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Ex03.GarageLogic
 {
@@ -22,19 +21,7 @@ namespace Ex03.GarageLogic
             }
             set
             {
-                bool isValidAmount = value <= r_MaxCapacity;
-
-                if(isValidAmount)
-                {
-                    m_CurrentAmount = value;
-                }
-                else
-                {
-                    string actionName = "Set";
-                    string message = buildOutOfRangeMessage(actionName, k_MinAmount, MaxCapacity);
-
-                    throw new ValueOutOfRangeException(k_MinAmount, MaxCapacity, message);
-                }
+                setCurrentAmount(value, MaxCapacity);
             }
         } 
         
@@ -46,36 +33,37 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void Fill(float i_CurrentAmount)
+        public void Fill(float i_AmountToAdd)
         {
-            float maxCapacity = GetMaxAmountToFill();
-            bool isValidAmount = i_CurrentAmount <= maxCapacity && i_CurrentAmount > k_MinAmount;
+            float maxPossibleAmount = GetMaxAmountToFill();
+            float amountToSet = CurrentAmount + i_AmountToAdd;
 
-            if(isValidAmount)
+
+            setCurrentAmount(amountToSet, maxPossibleAmount);
+        }
+
+        private void setCurrentAmount(float i_AmountToSet, float i_MaxPossibleAmount)
+        {
+            bool isValidAmount = i_AmountToSet <= MaxCapacity && i_AmountToSet > k_MinAmount;
+
+            if (isValidAmount)
             {
-                m_CurrentAmount = i_CurrentAmount;
+                m_CurrentAmount = i_AmountToSet;
             }
             else
             {
-                string actionName = "Fill";
-                string message = buildOutOfRangeMessage(actionName, k_MinAmount, maxCapacity);
+                string message = string.Format(
+                    @"The Amount you are trying to fill is out of range.
+The allowed amount is between {0} to {1}",
+                    k_MinAmount,
+                    i_MaxPossibleAmount);
 
-                throw new ValueOutOfRangeException(k_MinAmount, maxCapacity, message);
+                throw new ValueOutOfRangeException(k_MinAmount, i_MaxPossibleAmount, message);
             }
-        }
-
-        private string buildOutOfRangeMessage(string i_ActionName, float i_MinAmount, float i_MaxAmount)
-        {
-            return string.Format(
-                @"The Amount you are trying to {0} is out of range.
-The allowed amount is between {1} to {2}",
-                i_ActionName,
-                i_MinAmount,
-                i_MaxAmount);
         }
 
         protected abstract float GetMaxAmountToFill();
 
-        public new abstract string ToString();
+        public abstract override string ToString();
     }
 }
