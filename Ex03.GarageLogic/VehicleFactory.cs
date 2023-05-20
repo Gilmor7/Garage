@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -34,7 +30,6 @@ namespace Ex03.GarageLogic
                     break; 
                 case eVehicleTypes.Truck:
                     break;
-          
             }
 
             return newVehicle;

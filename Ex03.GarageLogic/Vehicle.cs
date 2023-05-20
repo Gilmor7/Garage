@@ -66,6 +66,7 @@ namespace Ex03.GarageLogic
         public void FillEnergySource(float i_AmountToAdd)
         {
             m_EnergySource.Fill(i_AmountToAdd);
+            setCurrentEnergyPercentage();
         }
 
         public override string ToString()
