@@ -6,12 +6,11 @@ namespace Ex03.GarageLogic
     {
         private const float k_MinAirPressure = 0;
         private readonly float r_MaxAirPressure;
-        private readonly string r_ManufacturerName;
+        private string m_ManufacturerName;
         private float m_CurrentAirPressure;
 
-        public Wheel(string i_ManufacturerName, float i_MaxAirPressure)
+        public Wheel(float i_MaxAirPressure)
         {
-            r_ManufacturerName = i_ManufacturerName;
             r_MaxAirPressure = i_MaxAirPressure;
         }
 
@@ -27,7 +26,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_ManufacturerName;
+                return m_ManufacturerName;
             }
         }
         
@@ -87,7 +86,7 @@ The allowed amount is between {0} to {1}",
                 @"Manufacturer name: {0}
 Current air pressure: {1}
 Max air pressure: {2}",
-                r_ManufacturerName,
+                m_ManufacturerName,
                 m_CurrentAirPressure,
                 r_MaxAirPressure);
 
