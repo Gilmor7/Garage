@@ -43,6 +43,8 @@
     <Compile Include="ElectricMotorcycle.cs" />
     <Compile Include="Fuel.cs" />
     <Compile Include="FueledMotorcycle.cs" />
+    <Compile Include="Garage.cs" />
+    <Compile Include="GarageVehicle.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle.cs" />

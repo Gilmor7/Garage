@@ -29,5 +29,10 @@ namespace Ex03.GarageLogic
                 r_Wheels.Add(new Wheel(k_MaxWheelAirPressure));
             }
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

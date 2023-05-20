@@ -50,6 +50,14 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public void InflateWheelsToMax()
+        {
+            foreach(Wheel wheel in r_Wheels)
+            {
+                wheel.InflateToMax();
+            }
+        }
+
         private void setCurrentEnergyPercentage()
         {
             m_CurrentEnergyPercentage = (m_EnergySource.CurrentAmount / m_EnergySource.MaxCapacity) * 100f;
