@@ -3,6 +3,7 @@ using Ex03.GarageLogic;
 namespace Ex03.ConsoleUI
 {
 	public class GarageInterface
+        //TODO: 0. quick and dirty check of the get requirements of motorcycle in addCar method
         //TODO: 1. impliment rest of the menu
         //TODO: 2. add error handeling in all of those options
 	{
