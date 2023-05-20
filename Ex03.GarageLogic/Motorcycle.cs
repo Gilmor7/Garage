@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
         private const float k_MaxWheelAirPressure = 31;
         private const float k_NumOfWheels = 2;
         private eLicenseType m_LicenseType;
-        private int m_CubicEngineCapacity;
+        private int m_EngineVolume;
 
         protected Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
@@ -28,6 +28,12 @@ namespace Ex03.GarageLogic
             {
                 r_Wheels.Add(new Wheel(k_MaxWheelAirPressure));
             }
+        }
+
+        protected override void SetMyRequirements()
+        {
+            m_Requirements.Add("licenseType", "License type");
+            m_Requirements.Add("engineVolume", "Engine volume in cc.");
         }
 
         public override string ToString()
