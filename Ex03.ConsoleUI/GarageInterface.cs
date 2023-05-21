@@ -4,9 +4,8 @@ using System.Collections.Generic;
 namespace Ex03.ConsoleUI
 {
 	public class GarageInterface
-        //TODO: 0. quick and dirty check of the get requirements of motorcycle in addCar method
-        //TODO: 1. impliment rest of the menu
         //TODO: 2. add error handeling in all of those options
+        //TODO: 3. change ALL of the strings to const strings (now we have only half)
 	{
 		private enum eUserInput
 		{
@@ -28,6 +27,8 @@ namespace Ex03.ConsoleUI
         private const string k_VehicleTypeMsg = "Enter type of vehicle: ";
         private const string k_OwnerNameMsg = "Enter owner's name: ";
         private const string k_OwnerPhoneMsg = "Enter owner's Phone: ";
+        private const string k_ExistingVehicleStatusChangeToRepair = "Updating vehicle's status to repair.";
+        private const string k_StatusChangeMsg = "Enter new status for the vehicle: ";
 
         private static string[] s_Messages =
 		{
@@ -41,6 +42,9 @@ namespace Ex03.ConsoleUI
 			"8. Exit the system",
 			"Pick an option: "
 		};
+
+        private const int k_minMenuOption = 1;
+        private const int k_maxMenuOption = 8;
 
 		private eUserInput m_CurrInput;
 		private Garage m_Garage = null;
@@ -56,8 +60,19 @@ namespace Ex03.ConsoleUI
 			while(m_CurrInput != eUserInput.ExitTheSystem)
 			{
 				displayMenu();
-				m_CurrInput = getInputFromUser();
-				activateMenuOption();
+                try
+                {
+                    m_CurrInput = getInputFromUser();
+                    activateMenuOption();
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("An error has occured: " + e.Message);
+                }
+                finally
+                {
+                    Console.WriteLine("Going back to menu...");
+                }
 			}
 		}
 
@@ -72,11 +87,12 @@ namespace Ex03.ConsoleUI
 
                 if (!Enum.TryParse(userInput, out inputAsEnum))
                 {
-                    Console.WriteLine("Invalid input. Please enter a numeric value.");
+                    throw new FormatException("Invalid input. Please enter a numeric value");
                 }
                 else if (!Enum.IsDefined(typeof(eUserInput), inputAsEnum) || inputAsEnum == eUserInput.None)
                 {
-                    Console.WriteLine("Invalid option. Please enter a number from 1 to 8.");
+                    throw new ValueOutOfRangeException(k_minMenuOption,
+                        k_maxMenuOption, $"Input not in range of {k_minMenuOption} - {k_maxMenuOption}");
                 }
                 else
                 {
@@ -116,8 +132,7 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("Exiting the system...");
                     break;
                 default:
-                    Console.WriteLine("Invalid option. Please select a valid option from the menu.");
-                    break;
+                    throw new ArgumentException($"Invalid input option: {m_CurrInput}. Please select a valid option from the menu.");
             }
         }
 
@@ -135,9 +150,7 @@ namespace Ex03.ConsoleUI
                 string vehicleTypeStr = askForInputAfterMsg(k_VehicleTypeMsg);
                 if(!Enum.TryParse(vehicleTypeStr, out VehicleFactory.eVehicleTypes vehicleType))
                 {
-                    //TODO: throw error instead
-                    Console.WriteLine("Invalid vehicle Type!");
-                    return;
+                    throw new ArgumentException("Invalid vehicle type!");
                 }
 
                 Vehicle vehicleToInsertToGarage = VehicleFactory.CreateVehicle(vehicleType, licensePlate);
@@ -148,35 +161,85 @@ namespace Ex03.ConsoleUI
             }
         }
 
+        private void switchVehicleToRepairModeAndInformCustomer(string i_LicensePlate)
+        {
+            m_Garage.ChangeVehicleStatus(i_LicensePlate, GarageVehicle.eStatus.InRepair);
+            Console.WriteLine(k_ExistingVehicleStatusChangeToRepair);
+        }
+
         private void updateVehicleStateBasedOnRequirements(Vehicle i_VehicleToUpdate)
         {
             Dictionary<string, string> userValues = new Dictionary<string, string>();
             Dictionary<string, string> requirments = i_VehicleToUpdate.Requirments;
             string userInput = null;
 
-            foreach(KeyValuePair<string, string> requirmentPair in requirments)
+            bool k_IsUpdatingWasOK = false;
+            while (!k_IsUpdatingWasOK)
             {
-                Console.WriteLine(requirmentPair.Value);
-                userInput = Console.ReadLine();
-                userValues.Add(requirmentPair.Key, userInput);
+                foreach (KeyValuePair<string, string> requirmentPair in requirments)
+                {
+                    Console.WriteLine(requirmentPair.Value);
+                    userInput = Console.ReadLine();
+                    userValues.Add(requirmentPair.Key, userInput);
+                }
+                try
+                {
+                    i_VehicleToUpdate.SetRequirments(userValues);
+                    k_IsUpdatingWasOK = true;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Enter requirmenets again!");
+                }
             }
-
-            i_VehicleToUpdate.SetRequirments(userValues);
         }
 
         private void showFilteredVehicleList()
         {
-            throw new NotImplementedException();
+            string statusStr = askForInputAfterMsg("Enter vehicle status for filter: ");
+            if (!Enum.TryParse(statusStr, out GarageVehicle.eStatus status))
+            {
+                Console.WriteLine("Invalid status!");
+                return;
+            }
+
+            List<string> filteredVehicles = m_Garage.GetLicenseNumberListFilteredByStatus(status);
+
+            if (filteredVehicles.Count == 0)
+            {
+                Console.WriteLine("No vehicles found with the specified status.");
+            }
+            else
+            {
+                Console.WriteLine("Vehicles with status {0}:", status);
+                foreach (string licensePlate in filteredVehicles)
+                {
+                    Console.WriteLine("License Plate: " + licensePlate);
+                }
+            }
         }
+
 
         private void changeVehicleStatus()
         {
-            throw new NotImplementedException();
+            string licenseNumber = askForInputAfterMsg(k_LicensePlateMsg);
+            string newStatusStr = askForInputAfterMsg(k_StatusChangeMsg);
+
+            if (!Enum.TryParse(newStatusStr, out GarageVehicle.eStatus newStatus))
+            {
+                throw new ArgumentException("Invalid vehicle type!");
+            }
+
+            m_Garage.ChangeVehicleStatus(licenseNumber, newStatus);
+            Console.WriteLine("Vehicle status successfully changed.");
         }
+
 
         private void fillVehicleTiresToMax()
         {
-            throw new NotImplementedException();
+            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            m_Garage.InflateVehicleWheelsToMax(licensePlate);
         }
 
         private void getFullVehicleInfo()
@@ -189,7 +252,14 @@ namespace Ex03.ConsoleUI
         {
             string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
             string numOfMinutesToCharge = askForInputAfterMsg(k_ElectricCarChargeMsg);
-            m_Garage.ChargeElectricVehicle(licensePlate, float.Parse(numOfMinutesToCharge));
+            if(!float.TryParse(numOfMinutesToCharge, out float parsedMinutesToCharge))
+            {
+                throw new ArgumentException("Invalid amount of minutes!");
+            }
+            else
+            {
+                m_Garage.ChargeElectricVehicle(licensePlate, parsedMinutesToCharge);
+            }
         }
 
         private void fuelVehicle()
@@ -200,24 +270,15 @@ namespace Ex03.ConsoleUI
 
             if (!Enum.TryParse(fuelTypeInput, out Fuel.eFuelType parsedFuelType))
             {
-                Console.WriteLine("Invalid fuel type. Please enter a valid fuel type.");
-                return;
+                throw new ArgumentException("Invalid Fuel type!");
             }
 
             if (!float.TryParse(fuelAmountInput, out float parsedFuelAmount))
             {
-                Console.WriteLine("Invalid fuel amount. Please enter a valid number.");
-                return;
+                throw new ArgumentException("Invalid Fuel Amount!");
             }
 
-            try
-            {
-                m_Garage.RefuelVehicle(licensePlate, (Fuel.eFuelType)parsedFuelType, parsedFuelAmount);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("An error occurred while refueling the vehicle: " + ex.Message);
-            }
+            m_Garage.RefuelVehicle(licensePlate, parsedFuelType, parsedFuelAmount);
         }
 
 

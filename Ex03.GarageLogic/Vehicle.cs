@@ -111,5 +111,10 @@ Percentage of energy left: {2}%
 
             return vehicleInfo;
         }
+
+        public virtual void SetRequirments(Dictionary<string, string> userValues)
+        {
+            Console.WriteLine("Working....");
+        }
     }
 }
