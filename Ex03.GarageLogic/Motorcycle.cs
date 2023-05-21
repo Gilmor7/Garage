@@ -30,7 +30,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        protected override void SetMyRequirements()
+        public override void SetMyRequirements()
         {
             base.SetMyRequirements();
             m_Requirements.Add("licenseType", "License type");
