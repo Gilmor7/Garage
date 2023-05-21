@@ -49,7 +49,7 @@ namespace Ex03.ConsoleUI
 		private eUserInput m_CurrInput;
 		private Garage m_Garage = null;
 
-		GarageInterface()
+		public GarageInterface()
 		{
 			m_CurrInput = eUserInput.None;
 			m_Garage = new Garage();
@@ -71,9 +71,13 @@ namespace Ex03.ConsoleUI
                 }
                 finally
                 {
-                    Console.WriteLine("Going back to menu...");
+                    if(m_CurrInput != eUserInput.ExitTheSystem)
+                    {
+                        Console.WriteLine("Going back to menu...");
+                    }
                 }
 			}
+            Console.WriteLine("Exiting the system...");
 		}
 
         private eUserInput getInputFromUser()
@@ -129,7 +133,6 @@ namespace Ex03.ConsoleUI
                     getFullVehicleInfo();
                     break;
                 case eUserInput.ExitTheSystem:
-                    Console.WriteLine("Exiting the system...");
                     break;
                 default:
                     throw new ArgumentException($"Invalid input option: {m_CurrInput}. Please select a valid option from the menu.");
