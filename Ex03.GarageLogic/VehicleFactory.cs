@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
             Truck
         }
 
-        public Vehicle CreateVehicle(eVehicleTypes i_VehicleChoose, string i_LicenseNumber)
+        public static Vehicle CreateVehicle(eVehicleTypes i_VehicleChoose, string i_LicenseNumber)
         {
             Vehicle newVehicle = null;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Ex03.GarageLogic;
+using System.Collections.Generic;
 namespace Ex03.ConsoleUI
 {
 	public class GarageInterface
@@ -24,6 +25,9 @@ namespace Ex03.ConsoleUI
         private const string k_ElectricCarChargeMsg = "Enter num of minutes to charge the car: ";
         private const string k_FuelTypeMsg = "Enter type of fuel: ";
         private const string k_FuelAmountMsg = "Enter amount of fuel: ";
+        private const string k_VehicleTypeMsg = "Enter type of vehicle: ";
+        private const string k_OwnerNameMsg = "Enter owner's name: ";
+        private const string k_OwnerPhoneMsg = "Enter owner's Phone: ";
 
         private static string[] s_Messages =
 		{
@@ -119,7 +123,45 @@ namespace Ex03.ConsoleUI
 
         private void addNewVehicle()
         {
-            throw new NotImplementedException();
+            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            bool isVehicleInGarage = m_Garage.IsVehicleInGarage(licensePlate);
+
+            if (isVehicleInGarage)
+            {
+                switchVehicleToRepairModeAndInformCustomer(licensePlate);
+            }
+            else
+            {
+                string vehicleTypeStr = askForInputAfterMsg(k_VehicleTypeMsg);
+                if(!Enum.TryParse(vehicleTypeStr, out VehicleFactory.eVehicleTypes vehicleType))
+                {
+                    //TODO: throw error instead
+                    Console.WriteLine("Invalid vehicle Type!");
+                    return;
+                }
+
+                Vehicle vehicleToInsertToGarage = VehicleFactory.CreateVehicle(vehicleType, licensePlate);
+                string ownerName = askForInputAfterMsg(k_OwnerNameMsg);
+                string ownerPhone = askForInputAfterMsg(k_OwnerPhoneMsg);
+                updateVehicleStateBasedOnRequirements(vehicleToInsertToGarage);
+                m_Garage.AddVehicle(vehicleToInsertToGarage, ownerName, ownerPhone);
+            }
+        }
+
+        private void updateVehicleStateBasedOnRequirements(Vehicle i_VehicleToUpdate)
+        {
+            Dictionary<string, string> userValues = new Dictionary<string, string>();
+            Dictionary<string, string> requirments = i_VehicleToUpdate.Requirments;
+            string userInput = null;
+
+            foreach(KeyValuePair<string, string> requirmentPair in requirments)
+            {
+                Console.WriteLine(requirmentPair.Value);
+                userInput = Console.ReadLine();
+                userValues.Add(requirmentPair.Key, userInput);
+            }
+
+            i_VehicleToUpdate.SetRequirments(userValues);
         }
 
         private void showFilteredVehicleList()
