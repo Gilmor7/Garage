@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.ConsoleUI
 {
-	public class GarageInterface
+	public sealed class GarageInterface
         //TODO: 2. add error handeling in all of those options
         //TODO: 3. change ALL of the strings to const strings (now we have only half)
         //TODO: 4. maybe put messages in a different class
@@ -35,6 +35,7 @@ namespace Ex03.ConsoleUI
         private const string k_OwnerPhoneMsg = "Enter owner's Phone: ";
         private const string k_ExistingVehicleStatusChangeToRepair = "Updating vehicle's status to repair.";
         private const string k_StatusChangeMsg = "Enter new status for the vehicle: ";
+        private const string k_FilterByStatusMsg = "Enter status to filter by: ";
 
         private static string[] s_Messages =
 		{
@@ -156,7 +157,8 @@ namespace Ex03.ConsoleUI
             }
             else
             {
-                printVehicleTypesMenu();
+                string carTypes = constructEnumValuesMsg<VehicleFactory.eVehicleTypes>();
+                Console.WriteLine(carTypes);
                 string vehicleTypeStr = askForInputAfterMsg(k_VehicleTypeMsg);
                 if(!Enum.TryParse(vehicleTypeStr, out VehicleFactory.eVehicleTypes vehicleType))
                 {
@@ -171,20 +173,6 @@ namespace Ex03.ConsoleUI
                 m_Garage.ChangeVehicleStatus(licensePlate, GarageVehicle.eStatus.InRepair);
                 Console.WriteLine("Vehicle was added successfully!");
             }
-        }
-
-        private void printVehicleTypesMenu()
-        {
-            StringBuilder vehicleTypesMenu = new StringBuilder();
-            int i = 1;
-
-            foreach (VehicleFactory.eVehicleTypes vehicleType in Enum.GetValues(typeof(VehicleFactory.eVehicleTypes)))
-            {
-                vehicleTypesMenu.AppendLine($"{i}. {vehicleType}");
-                i++;
-            }
-
-            Console.WriteLine(vehicleTypesMenu.ToString());
         }
 
         private void switchVehicleToRepairModeAndInformCustomer(string i_LicensePlate)
@@ -225,7 +213,9 @@ namespace Ex03.ConsoleUI
 
         private void showFilteredVehicleList()
         {
-            string statusStr = askForInputAfterMsg("Enter vehicle status for filter: ");
+            string statusList = constructEnumValuesMsg<GarageVehicle.eStatus>();
+            Console.WriteLine(statusList);
+            string statusStr = askForInputAfterMsg(k_FilterByStatusMsg);
             if (!Enum.TryParse(statusStr, out GarageVehicle.eStatus status))
             {
                 Console.WriteLine("Invalid status!");
@@ -248,10 +238,11 @@ namespace Ex03.ConsoleUI
             }
         }
 
-
         private void changeVehicleStatus()
         {
+            string vehicleStatusesList = constructEnumValuesMsg<GarageVehicle.eStatus>();
             string licenseNumber = askForInputAfterMsg(k_LicensePlateMsg);
+            Console.WriteLine(vehicleStatusesList);
             string newStatusStr = askForInputAfterMsg(k_StatusChangeMsg);
 
             if (!Enum.TryParse(newStatusStr, out GarageVehicle.eStatus newStatus))
@@ -262,7 +253,6 @@ namespace Ex03.ConsoleUI
             m_Garage.ChangeVehicleStatus(licenseNumber, newStatus);
             Console.WriteLine("Vehicle status successfully changed.");
         }
-
 
         private void fillVehicleTiresToMax()
         {
@@ -288,12 +278,15 @@ namespace Ex03.ConsoleUI
             else
             {
                 m_Garage.ChargeElectricVehicle(licensePlate, parsedMinutesToCharge);
+                Console.WriteLine("Vehicle successfully charged.");
             }
         }
 
         private void fuelVehicle()
         {
+            string fuelTypesList = constructEnumValuesMsg<Fuel.eFuelType>();
             string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            Console.WriteLine(fuelTypesList);
             string fuelTypeInput = askForInputAfterMsg(k_FuelTypeMsg);
             string fuelAmountInput = askForInputAfterMsg(k_FuelAmountMsg);
 
@@ -308,6 +301,21 @@ namespace Ex03.ConsoleUI
             }
 
             m_Garage.RefuelVehicle(licensePlate, parsedFuelType, parsedFuelAmount);
+            Console.WriteLine("Vehicle successfully fueled.");
+        }
+        
+        private string constructEnumValuesMsg<TEnum>() where TEnum : Enum
+        {
+            StringBuilder enumValuesMsg = new StringBuilder();
+            int i = 1;
+
+            foreach (TEnum enumValue in Enum.GetValues(typeof(TEnum)))
+            {
+                enumValuesMsg.AppendLine($"{i}. {enumValue}");
+                i++;
+            }
+
+            return enumValuesMsg.ToString();
         }
 
 
