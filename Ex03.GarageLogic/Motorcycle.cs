@@ -40,22 +40,22 @@ namespace Ex03.GarageLogic
 
             if (!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
             {
-                throw new FormatException("Invalid license type");
+                throw new FormatException("Invalid license type, must be one of the following: A1, A2, AA, B1");
             }
 
             if (!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
             {
-                throw new ArgumentException("Invalid license type");
+                throw new ArgumentException("Invalid license type, must be one of the following: A1, A2, AA, B1");
             }
 
             if (!int.TryParse(engineVolume, out int parsedEngineVolume))
             {
-                throw new FormatException("Invalid engine volume");
+                throw new FormatException("Invalid engine volume, must be a number");
             }
 
             if (parsedEngineVolume < 0)
             {
-                throw new ArgumentException("Invalid engine volume");
+                throw new ArgumentException("Invalid engine volume, must be a positive number");
             }
 
             m_LicenseType = parsedLicenseType;
