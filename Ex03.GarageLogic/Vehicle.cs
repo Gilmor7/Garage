@@ -13,6 +13,8 @@ namespace Ex03.GarageLogic
         protected readonly List<Wheel> r_Wheels;
         protected VehicleEnergySource m_EnergySource;
         private float m_CurrentEnergyPercentage;
+        protected float m_MaxWheelAirPressure;
+        protected int m_NumOfWheels;
 
         protected Vehicle(string i_LicenseNumber)
         {
@@ -123,6 +125,14 @@ Percentage of energy left: {2}%
             setCurrentEnergyPercentage();
 
             m_ModelName = i_Requirements["modelName"];
+        }
+        
+        protected void initializeWheels()
+        {
+            for(int i = 0; i < m_NumOfWheels; i++)
+            {
+                r_Wheels.Add(new Wheel(m_MaxWheelAirPressure));
+            }
         }
     }
 }
