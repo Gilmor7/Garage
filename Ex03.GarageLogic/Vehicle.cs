@@ -80,7 +80,7 @@ namespace Ex03.GarageLogic
             setCurrentEnergyPercentage();
         }
 
-        protected virtual void SetMyRequirements()
+        public virtual void SetMyRequirements()
         {
             m_Requirements.Add("modelName", "Model name:");
             Dictionary<string, string> wheelsRequirements = r_Wheels[0].GetRequirements();
@@ -110,6 +110,11 @@ Percentage of energy left: {2}%
                 m_EnergySource.ToString());
 
             return vehicleInfo;
+        }
+
+        public virtual void SetRequirments(Dictionary<string, string> userValues)
+        {
+            Console.WriteLine("Working....");
         }
     }
 }
