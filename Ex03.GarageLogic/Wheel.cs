@@ -103,5 +103,19 @@ Max air pressure: {2}",
 
             return wheelInfo;
         }
+
+        public void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirments)
+        {
+            string tireManifacturer = i_Requirments["manufacturerName"];
+            string currTirePressure = i_Requirments["currentAirPressure"];
+
+            if(!float.TryParse(currTirePressure, out float parsedTirePressure))
+            {
+                throw new ArgumentException("Invalid tire pressure!");
+            }
+
+            setCurrentAirPressure(parsedTirePressure, r_MaxAirPressure);
+            m_ManufacturerName = tireManifacturer;
+        }
     }
 }

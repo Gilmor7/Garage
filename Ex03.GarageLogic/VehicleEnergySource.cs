@@ -77,6 +77,18 @@ The allowed amount is between {0} to {1}",
 
         protected abstract void SetMyRequirements();
 
+        public virtual void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
+        {
+            string currentEnergyAmount = i_Requirements["currentAmount"];
+
+            if(!float.TryParse(currentEnergyAmount, out float parsedAmount))
+            {
+                throw new ArgumentException("Invalid amount");
+            }
+
+            m_CurrentAmount = parsedAmount;
+        }
+
         protected abstract float GetMaxAmountToFill();
 
         public abstract override string ToString();
