@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
     {
         private const float k_MaxBatteryTime = 5.2f;
 
-        public ElectricCar(string i_LicenseNumber, eColor i_Color, eNumOfDoors i_NumOfDoors) : base(i_LicenseNumber, i_Color, i_NumOfDoors)
+        public ElectricCar(string i_LicenseNumber) : base(i_LicenseNumber)
         {
             m_EnergySource = new Battery(k_MaxBatteryTime);
         }
