@@ -45,6 +45,14 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public VehicleEnergySource EnergySource
+        {
+            get
+            {
+                return m_EnergySource;
+            }
+        }
+
         public float CurrentEnergyPercentage
         {
             get

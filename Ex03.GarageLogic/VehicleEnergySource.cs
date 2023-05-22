@@ -24,11 +24,6 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentAmount;
             }
-            set
-            {
-                //TODO: maybe remove
-                setCurrentAmount(value, MaxCapacity);
-            }
         } 
         
         public float MaxCapacity
@@ -86,7 +81,7 @@ The allowed amount is between {0} to {1}",
                 throw new ArgumentException("Invalid amount");
             }
 
-            m_CurrentAmount = parsedAmount;
+            setCurrentAmount(parsedAmount, MaxCapacity);
         }
 
         protected abstract float GetMaxAmountToFill();
