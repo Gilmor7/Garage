@@ -99,11 +99,13 @@ namespace Ex03.GarageLogic
 
                 if(isBattery)
                 {
-                    selectedVehicle.FillEnergySource(i_MinutesToCharge);
+                    float hoursToCharge = i_MinutesToCharge / 60f;
+
+                    selectedVehicle.FillEnergySource(hoursToCharge);
                 }
                 else
                 {
-                    throw new ArgumentException("This vehicle is NOT an electricity vehicle.");
+                    throw new ArgumentException("This vehicle is not an electric vehicle.");
                 }
             }
             else
