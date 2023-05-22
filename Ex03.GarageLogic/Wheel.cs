@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
     public class Wheel
     {
+        private readonly Dictionary<string, string> r_Requirements = new Dictionary<string, string>() //TODO: We have it duplicated a lot ,should it be static? or maybe generated as part of the method get
+                                                                  {
+                                                                      { "manufacturerName", "Wheels Manufacturer Name" },
+                                                                      { "currentAirPressure", "Current Wheels Air pressure" },
+                                                                  };
         private const float k_MinAirPressure = 0;
         private readonly float r_MaxAirPressure;
         private string m_ManufacturerName;
@@ -80,6 +86,11 @@ The allowed amount is between {0} to {1}",
             return r_MaxAirPressure - m_CurrentAirPressure;
         }
 
+        public Dictionary<string, string> GetRequirements()
+        {
+            return r_Requirements;
+        }
+
         public override string ToString()
         {
             string wheelInfo = string.Format(
@@ -91,6 +102,20 @@ Max air pressure: {2}",
                 r_MaxAirPressure);
 
             return wheelInfo;
+        }
+
+        public void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirments)
+        {
+            string tireManifacturer = i_Requirments["manufacturerName"];
+            string currTirePressure = i_Requirments["currentAirPressure"];
+
+            if(!float.TryParse(currTirePressure, out float parsedTirePressure))
+            {
+                throw new ArgumentException("Invalid tire pressure!");
+            }
+
+            setCurrentAirPressure(parsedTirePressure, r_MaxAirPressure);
+            m_ManufacturerName = tireManifacturer;
         }
     }
 }

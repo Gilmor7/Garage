@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
     public abstract class VehicleEnergySource
     {
+        protected Dictionary<string, string> m_Requirements = new Dictionary<string, string>()
+                                                                         {
+                                                                             { "currentAmount", "Current energy amount" },
+                                                                         };
         private const float k_MinAmount = 0;
         private readonly float r_MaxCapacity;
         private float m_CurrentAmount;
@@ -21,6 +26,7 @@ namespace Ex03.GarageLogic
             }
             set
             {
+                //TODO: maybe remove
                 setCurrentAmount(value, MaxCapacity);
             }
         } 
@@ -60,6 +66,27 @@ The allowed amount is between {0} to {1}",
 
                 throw new ValueOutOfRangeException(k_MinAmount, i_MaxPossibleAmount, message);
             }
+        }
+
+        public Dictionary<string, string> GetRequirements()
+        {
+            SetMyRequirements();
+
+            return m_Requirements;
+        }
+
+        protected abstract void SetMyRequirements();
+
+        public virtual void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
+        {
+            string currentEnergyAmount = i_Requirements["currentAmount"];
+
+            if(!float.TryParse(currentEnergyAmount, out float parsedAmount))
+            {
+                throw new ArgumentException("Invalid amount");
+            }
+
+            m_CurrentAmount = parsedAmount;
         }
 
         protected abstract float GetMaxAmountToFill();

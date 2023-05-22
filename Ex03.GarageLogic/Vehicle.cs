@@ -6,6 +6,8 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
+        protected Dictionary<string, string> m_Requirements = null;
+
         private readonly string r_LicenseNumber;
         private string m_ModelName;
         protected readonly List<Wheel> r_Wheels;
@@ -16,6 +18,7 @@ namespace Ex03.GarageLogic
         {
             r_LicenseNumber = i_LicenseNumber;
             r_Wheels = new List<Wheel>();
+            m_Requirements = new Dictionary<string, string>() { };
         }
 
         public List<Wheel> Wheels
@@ -50,6 +53,14 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public Dictionary<string, string> Requirments
+        {
+            get
+            {
+                return m_Requirements;
+            }
+        }
+
         public void InflateWheelsToMax()
         {
             foreach(Wheel wheel in r_Wheels)
@@ -67,6 +78,16 @@ namespace Ex03.GarageLogic
         {
             m_EnergySource.Fill(i_AmountToAdd);
             setCurrentEnergyPercentage();
+        }
+
+        public virtual void SetMyRequirements()
+        {
+            m_Requirements.Add("modelName", "Model name:");
+            Dictionary<string, string> wheelsRequirements = r_Wheels[0].GetRequirements();
+            Dictionary<string, string> energySourceRequirements = m_EnergySource.GetRequirements();
+
+            Utils.MergeTwoStringsDictionaries(m_Requirements, wheelsRequirements);
+            Utils.MergeTwoStringsDictionaries(m_Requirements, energySourceRequirements);
         }
 
         public override string ToString()
@@ -89,6 +110,19 @@ Percentage of energy left: {2}%
                 m_EnergySource.ToString());
 
             return vehicleInfo;
+        }
+
+        public virtual void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
+        {
+            foreach(Wheel wheel in r_Wheels)
+            {
+                wheel.SetValuesFromRequirmentes(i_Requirements);
+            }
+
+            m_EnergySource.SetValuesFromRequirmentes(i_Requirements);
+            setCurrentEnergyPercentage();
+
+            m_ModelName = i_Requirements["modelName"];
         }
     }
 }

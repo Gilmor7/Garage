@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -11,6 +12,11 @@ namespace Ex03.GarageLogic
         protected override float GetMaxAmountToFill()
         {
             return (MaxCapacity - CurrentAmount) * 60; // Convert maximum time to charge from hours to minutes.
+        }
+
+        protected override void SetMyRequirements()
+        {
+            m_Requirements["currentAmount"] = "Battery time left in hours";
         }
 
         public override string ToString()
