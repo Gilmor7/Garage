@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
         {
             base.SetMyRequirements();
             m_Requirements.Add("isCarryingToxicMaterials", "Is carrying toxic materials? (true/false)");
-            m_Requirements.Add("cargoVolume", "Cargo volume");
+            m_Requirements.Add("cargoVolume", "Cargo volume (must be a positive number)");
         }
         
         public override void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)

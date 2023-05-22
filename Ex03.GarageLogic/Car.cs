@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -38,8 +39,50 @@ namespace Ex03.GarageLogic
         public override void SetMyRequirements()
         {
             base.SetMyRequirements();
-            m_Requirements.Add("color", "Color (White, Black, Yellow, Red)");
-            m_Requirements.Add("numOfDoors", "Number of doors (2, 3, 4, 5)");
+            string colors = constructColorString();
+            string numOfDoors = constructNumOfDoorsString();
+            m_Requirements.Add("color", $"Color ({colors})");
+            m_Requirements.Add("numOfDoors", $"Number of doors ({numOfDoors})");
+        }
+        
+        private string constructColorString()
+        {
+            StringBuilder colorString = new StringBuilder();
+            int numOfColors = Enum.GetNames(typeof(eColor)).Length;
+            int i = 0;
+            
+            foreach (eColor color in Enum.GetValues(typeof(eColor)))
+            {
+                colorString.Append(color.ToString());
+                if (i < numOfColors - 1)
+                {
+                    colorString.Append(", ");
+                }
+                
+                i++;
+            }
+            
+            return colorString.ToString();
+        }
+        
+        private string constructNumOfDoorsString()
+        {
+            StringBuilder numOfDoorsString = new StringBuilder();
+            int numOfNumOfDoors = Enum.GetNames(typeof(eNumOfDoors)).Length;
+            int i = 0;
+            
+            foreach (eNumOfDoors numOfDoors in Enum.GetValues(typeof(eNumOfDoors)))
+            {
+                numOfDoorsString.Append(numOfDoors.ToString());
+                if (i < numOfNumOfDoors - 1)
+                {
+                    numOfDoorsString.Append(", ");
+                }
+                
+                i++;
+            }
+            
+            return numOfDoorsString.ToString();
         }
         
         public override void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
@@ -50,22 +93,22 @@ namespace Ex03.GarageLogic
             
             if (!Enum.TryParse(color, out eColor parsedColor))
             {
-                throw new FormatException("Invalid color, must be one of: White, Black, Yellow, Red");
-            }
-            
-            if (!Enum.IsDefined(typeof(eColor), parsedColor))
-            {
-                throw new ArgumentException("Invalid color, must be one of: White, Black, Yellow, Red");
+                throw new FormatException("Invalid color");
             }
             
             if (!Enum.TryParse(numOfDoors, out eNumOfDoors parsedNumOfDoors))
             {
-                throw new FormatException("Invalid number of doors, must be one of: 2, 3, 4, 5");
+                throw new FormatException("Invalid number of doors");
             }
             
-            if (!Enum.IsDefined(typeof(eNumOfDoors), parsedNumOfDoors))
+            if(!Enum.IsDefined(typeof(eColor), parsedColor))
             {
-                throw new ArgumentException("Invalid number of doors, must be one of: 2, 3, 4, 5");
+                throw new FormatException("Invalid color");
+            }
+            
+            if(!Enum.IsDefined(typeof(eNumOfDoors), parsedNumOfDoors))
+            {
+                throw new FormatException("Invalid number of doors");
             }
             
             m_Color = parsedColor;

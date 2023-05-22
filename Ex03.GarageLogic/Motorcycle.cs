@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -28,8 +29,29 @@ namespace Ex03.GarageLogic
         public override void SetMyRequirements()
         {
             base.SetMyRequirements();
-            m_Requirements.Add("licenseType", "License type");
-            m_Requirements.Add("engineVolume", "Engine volume in cc.");
+            string licenseTypes = constructLicenseTypeString();
+            m_Requirements.Add("licenseType", $"License type ({licenseTypes})");
+            m_Requirements.Add("engineVolume", "Engine volume in cc. (must be a positive number)");
+        }
+
+        private string constructLicenseTypeString()
+        {
+            StringBuilder licenseTypeString = new StringBuilder();
+            int numOfLicenseTypes = Enum.GetNames(typeof(eLicenseType)).Length;
+            int i = 0;
+
+            foreach (eLicenseType licenseType in Enum.GetValues(typeof(eLicenseType)))
+            {
+                licenseTypeString.Append(licenseType.ToString());
+                if (i < numOfLicenseTypes - 1)
+                {
+                    licenseTypeString.Append(", ");
+                }
+
+                i++;
+            }
+
+            return licenseTypeString.ToString();
         }
 
         public override void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
@@ -40,22 +62,22 @@ namespace Ex03.GarageLogic
 
             if (!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
             {
-                throw new FormatException("Invalid license type, must be one of the following: A1, A2, AA, B1");
+                throw new FormatException("Invalid license type");
             }
 
             if (!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
             {
-                throw new ArgumentException("Invalid license type, must be one of the following: A1, A2, AA, B1");
+                throw new ArgumentException("Invalid license type");
             }
 
             if (!int.TryParse(engineVolume, out int parsedEngineVolume))
             {
-                throw new FormatException("Invalid engine volume, must be a number");
+                throw new FormatException("Invalid engine volume");
             }
 
             if (parsedEngineVolume < 0)
             {
-                throw new ArgumentException("Invalid engine volume, must be a positive number");
+                throw new ArgumentException("Invalid engine volume");
             }
 
             m_LicenseType = parsedLicenseType;
