@@ -161,6 +161,7 @@ namespace Ex03.ConsoleUI
                 string ownerPhone = askForInputAfterMsg(k_OwnerPhoneMsg);
                 updateVehicleStateBasedOnRequirements(vehicleToInsertToGarage);
                 m_Garage.AddVehicle(vehicleToInsertToGarage, ownerName, ownerPhone);
+                m_Garage.ChangeVehicleStatus(licensePlate, GarageVehicle.eStatus.InRepair);
             }
         }
 
@@ -248,7 +249,8 @@ namespace Ex03.ConsoleUI
         private void getFullVehicleInfo()
         {
             string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
-            m_Garage.GetVehicleInfo(licensePlate);
+            string vehicleInfo = m_Garage.GetVehicleInfo(licensePlate);
+            Console.WriteLine(vehicleInfo);
         }
 
         private void chargeVehicle()

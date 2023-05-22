@@ -37,7 +37,6 @@ namespace Ex03.GarageLogic
         protected override void SetMyRequirements()
         {
             m_Requirements["currentAmount"] = "Current fuel level in liters";
-            m_Requirements.Add("fuelType", "Fuel Type");
         }
 
         public override string ToString()

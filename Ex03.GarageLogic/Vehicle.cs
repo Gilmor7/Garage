@@ -119,7 +119,7 @@ Percentage of energy left: {2}%
                 wheel.setRequirments(i_Requirements);
             }
 
-            m_EnergySource.SetRequierments(i_Requirements);
+            m_EnergySource.SetRequirements(i_Requirements);
 
             m_ModelName = i_Requirements["modelName"];
         }

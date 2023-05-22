@@ -43,7 +43,29 @@ namespace Ex03.GarageLogic
             base.SetRequirments(i_Requirements);
             string licenseType = i_Requirements["licenseType"];
             string engineVolume = i_Requirements["engineVolume"];
+            
+            if(!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
+            {
+                throw new FormatException("Invalid license type");
+            }
+            
+            if(!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
+            {
+                throw new ArgumentException("Invalid license type");
+            }
+            
+            if(!int.TryParse(engineVolume, out int parsedEngineVolume))
+            {
+                throw new FormatException("Invalid engine volume");
+            }
+            
+            if(parsedEngineVolume < 0)
+            {
+                throw new ArgumentException("Invalid engine volume");
+            }
 
+            m_LicenseType = parsedLicenseType;
+            m_EngineVolume = parsedEngineVolume;
 
         }
 
