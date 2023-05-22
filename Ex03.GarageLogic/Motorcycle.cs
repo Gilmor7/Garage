@@ -38,9 +38,9 @@ namespace Ex03.GarageLogic
             m_Requirements.Add("engineVolume", "Engine volume in cc.");
         }
 
-        public override void SetRequirments(Dictionary<string, string> i_Requirements)
+        public override void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
         {
-            base.SetRequirments(i_Requirements);
+            base.SetValuesFromRequirmentes(i_Requirements);
             string licenseType = i_Requirements["licenseType"];
             string engineVolume = i_Requirements["engineVolume"];
             

@@ -104,7 +104,7 @@ Max air pressure: {2}",
             return wheelInfo;
         }
 
-        public void setRequirments(Dictionary<string, string> i_Requirments)
+        public void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirments)
         {
             string tireManifacturer = i_Requirments["manufacturerName"];
             string currTirePressure = i_Requirments["currentAirPressure"];

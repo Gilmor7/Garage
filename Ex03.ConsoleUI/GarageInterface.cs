@@ -6,7 +6,8 @@ namespace Ex03.ConsoleUI
 	public class GarageInterface
         //TODO: 2. add error handeling in all of those options
         //TODO: 3. change ALL of the strings to const strings (now we have only half)
-	{
+        //TODO: 4. maybe put messages in a different class
+    {
 		private enum eUserInput
 		{
 			None,
@@ -176,25 +177,25 @@ namespace Ex03.ConsoleUI
             Dictionary<string, string> userValues = new Dictionary<string, string>();
             Dictionary<string, string> requirments = i_VehicleToUpdate.Requirments;
             string userInput = null;
-
-            bool k_IsUpdatingWasOK = false;
-            while (!k_IsUpdatingWasOK)
+            bool isUpdatingWasOk = false;
+            
+            while (!isUpdatingWasOk)
             {
                 foreach (KeyValuePair<string, string> requirmentPair in requirments)
                 {
-                    Console.WriteLine(requirmentPair.Value);
+                    Console.WriteLine(requirmentPair.Value + ": ");
                     userInput = Console.ReadLine();
                     userValues.Add(requirmentPair.Key, userInput);
                 }
                 try
                 {
-                    i_VehicleToUpdate.SetRequirments(userValues);
-                    k_IsUpdatingWasOK = true;
+                    i_VehicleToUpdate.SetValuesFromRequirmentes(userValues);
+                    isUpdatingWasOk = true;
                 }
                 catch(Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    Console.WriteLine("Enter requirmenets again!");
+                    Console.WriteLine("Enter the values again!");
                 }
             }
         }
