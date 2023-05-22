@@ -23,12 +23,16 @@ namespace Ex03.GarageLogic
                     newVehicle = new FueledMotorcycle(i_LicenseNumber);
                     break;
                 case eVehicleTypes.ElectricMotorcycle:
+                    newVehicle = new ElectricMotorcycle(i_LicenseNumber);
                     break;
                 case eVehicleTypes.ElectricCar:
+                    newVehicle = new ElectricCar(i_LicenseNumber);
                     break;
                 case eVehicleTypes.FueledCar:
+                    newVehicle = new FueledCar(i_LicenseNumber);
                     break; 
                 case eVehicleTypes.Truck:
+                    newVehicle = new FueledTruck(i_LicenseNumber);
                     break;
             }
 
