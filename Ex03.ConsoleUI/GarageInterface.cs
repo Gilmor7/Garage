@@ -195,13 +195,13 @@ namespace Ex03.ConsoleUI
 
         private void updateVehicleStateBasedOnRequirements(Vehicle i_VehicleToUpdate)
         {
-            Dictionary<string, string> userValues = new Dictionary<string, string>();
             Dictionary<string, string> requirments = i_VehicleToUpdate.Requirments;
             string userInput = null;
             bool isUpdatingWasOk = false;
             
             while (!isUpdatingWasOk)
             {
+                Dictionary<string, string> userValues = new Dictionary<string, string>();
                 foreach (KeyValuePair<string, string> requirmentPair in requirments)
                 {
                     Console.WriteLine(requirmentPair.Value);
