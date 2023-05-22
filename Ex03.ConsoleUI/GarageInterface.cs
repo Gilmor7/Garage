@@ -192,7 +192,7 @@ namespace Ex03.ConsoleUI
                 }
                 try
                 {
-                    i_VehicleToUpdate.SetValuesFromRequirmentes(userValues);
+                    i_VehicleToUpdate.SetValuesFromRequirements(userValues);
                     isUpdatingWasOk = true;
                 }
                 catch(Exception e)

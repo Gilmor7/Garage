@@ -114,7 +114,7 @@ Percentage of energy left: {2}%
             return vehicleInfo;
         }
 
-        public virtual void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
+        public virtual void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
         {
             foreach(Wheel wheel in r_Wheels)
             {
