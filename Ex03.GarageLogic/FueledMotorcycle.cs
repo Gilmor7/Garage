@@ -11,10 +11,5 @@ namespace Ex03.GarageLogic
         {
             m_EnergySource = new Fuel(k_FuelType, k_FuelTankCapacity);
         }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 }

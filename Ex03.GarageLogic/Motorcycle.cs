@@ -13,22 +13,16 @@ namespace Ex03.GarageLogic
             B1,
         }
 
-        private const float k_MaxWheelAirPressure = 31;
-        private const float k_NumOfWheels = 2;
+        private const float k_MaxWheelAirPressureInMotorcycle = 31;
+        private const int k_NumOfWheelsOnMotorcycle = 2;
         private eLicenseType m_LicenseType;
         private int m_EngineVolume;
 
         protected Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
+            m_NumOfWheels = k_NumOfWheelsOnMotorcycle;
+            m_MaxWheelAirPressure = k_MaxWheelAirPressureInMotorcycle;
             initializeWheels();
-        }
-
-        private void initializeWheels()
-        {
-            for(int i = 0; i < k_NumOfWheels; i++)
-            {
-                r_Wheels.Add(new Wheel(k_MaxWheelAirPressure));
-            }
         }
 
         public override void SetMyRequirements()
@@ -43,23 +37,23 @@ namespace Ex03.GarageLogic
             base.SetValuesFromRequirmentes(i_Requirements);
             string licenseType = i_Requirements["licenseType"];
             string engineVolume = i_Requirements["engineVolume"];
-            
-            if(!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
+
+            if (!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
             {
                 throw new FormatException("Invalid license type");
             }
-            
-            if(!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
+
+            if (!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
             {
                 throw new ArgumentException("Invalid license type");
             }
-            
-            if(!int.TryParse(engineVolume, out int parsedEngineVolume))
+
+            if (!int.TryParse(engineVolume, out int parsedEngineVolume))
             {
                 throw new FormatException("Invalid engine volume");
             }
-            
-            if(parsedEngineVolume < 0)
+
+            if (parsedEngineVolume < 0)
             {
                 throw new ArgumentException("Invalid engine volume");
             }
@@ -67,11 +61,6 @@ namespace Ex03.GarageLogic
             m_LicenseType = parsedLicenseType;
             m_EngineVolume = parsedEngineVolume;
 
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
         }
     }
 }
