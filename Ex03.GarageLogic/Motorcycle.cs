@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -35,6 +36,15 @@ namespace Ex03.GarageLogic
             base.SetMyRequirements();
             m_Requirements.Add("licenseType", "License type");
             m_Requirements.Add("engineVolume", "Engine volume in cc.");
+        }
+
+        public override void SetRequirments(Dictionary<string, string> i_Requirements)
+        {
+            base.SetRequirments(i_Requirements);
+            string licenseType = i_Requirements["licenseType"];
+            string engineVolume = i_Requirements["engineVolume"];
+
+
         }
 
         public override string ToString()
