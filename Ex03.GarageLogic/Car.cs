@@ -41,8 +41,8 @@ namespace Ex03.GarageLogic
             base.SetMyRequirements();
             string colors = constructColorString();
             string numOfDoors = constructNumOfDoorsString();
-            m_Requirements.Add("color", $"Color ({colors})");
-            m_Requirements.Add("numOfDoors", $"Number of doors ({numOfDoors})");
+            m_Requirements.Add("color", $"Color ({colors}):");
+            m_Requirements.Add("numOfDoors", $"Number of doors ({numOfDoors}):");
         }
         
         private string constructColorString()

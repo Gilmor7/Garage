@@ -30,8 +30,8 @@ namespace Ex03.GarageLogic
         {
             base.SetMyRequirements();
             string licenseTypes = constructLicenseTypeString();
-            m_Requirements.Add("licenseType", $"License type ({licenseTypes})");
-            m_Requirements.Add("engineVolume", "Engine volume in cc. (must be a positive number)");
+            m_Requirements.Add("licenseType", $"License type ({licenseTypes}):");
+            m_Requirements.Add("engineVolume", "Engine volume in cc. (must be a positive number):");
         }
 
         private string constructLicenseTypeString()

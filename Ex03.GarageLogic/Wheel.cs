@@ -7,8 +7,8 @@ namespace Ex03.GarageLogic
     {
         private readonly Dictionary<string, string> r_Requirements = new Dictionary<string, string>() //TODO: We have it duplicated a lot ,should it be static? or maybe generated as part of the method get
                                                                   {
-                                                                      { "manufacturerName", "Wheels Manufacturer Name" },
-                                                                      { "currentAirPressure", "Current Wheels Air pressure" },
+                                                                      { "manufacturerName", "Wheels Manufacturer Name:" },
+                                                                      { "currentAirPressure", "Current Wheels Air pressure:" },
                                                                   };
         private const float k_MinAirPressure = 0;
         private readonly float r_MaxAirPressure;
