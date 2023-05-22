@@ -72,7 +72,7 @@ The allowed amount is between {0} to {1}",
 
         protected abstract void SetMyRequirements();
 
-        public virtual void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
+        public virtual void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
         {
             string currentEnergyAmount = i_Requirements["currentAmount"];
 

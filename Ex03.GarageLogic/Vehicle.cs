@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -106,9 +105,9 @@ namespace Ex03.GarageLogic
             string vehicleInfo = string.Format(
                 @"License Number: {0}
 Model name: {1}
-Percentage of energy left: {2}%
 {3}
-{4}",
+{4}
+Percentage of energy left: {2}%",
                 r_LicenseNumber,
                 m_ModelName,
                 m_CurrentEnergyPercentage,
@@ -122,10 +121,10 @@ Percentage of energy left: {2}%
         {
             foreach(Wheel wheel in r_Wheels)
             {
-                wheel.SetValuesFromRequirmentes(i_Requirements);
+                wheel.SetValuesFromRequirements(i_Requirements);
             }
 
-            m_EnergySource.SetValuesFromRequirmentes(i_Requirements);
+            m_EnergySource.SetValuesFromRequirements(i_Requirements);
             setCurrentEnergyPercentage();
 
             m_ModelName = i_Requirements["modelName"];

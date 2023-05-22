@@ -42,10 +42,6 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentAirPressure;
             }
-            set
-            {
-                setCurrentAirPressure(value, r_MaxAirPressure);
-            }
         }
 
         public void Inflate(float i_AirPressureToAdd)
@@ -104,18 +100,18 @@ Max air pressure: {2}",
             return wheelInfo;
         }
 
-        public void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirments)
+        public void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
         {
-            string tireManifacturer = i_Requirments["manufacturerName"];
-            string currTirePressure = i_Requirments["currentAirPressure"];
+            string tireManufacturer = i_Requirements["manufacturerName"];
+            string currentTirePressure = i_Requirements["currentAirPressure"];
 
-            if(!float.TryParse(currTirePressure, out float parsedTirePressure))
+            if(!float.TryParse(currentTirePressure, out float parsedTirePressure))
             {
                 throw new ArgumentException("Invalid tire pressure!");
             }
 
             setCurrentAirPressure(parsedTirePressure, r_MaxAirPressure);
-            m_ManufacturerName = tireManifacturer;
+            m_ManufacturerName = tireManufacturer;
         }
     }
 }
