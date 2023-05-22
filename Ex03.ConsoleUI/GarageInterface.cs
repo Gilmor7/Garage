@@ -7,6 +7,9 @@ namespace Ex03.ConsoleUI
         //TODO: 2. add error handeling in all of those options
         //TODO: 3. change ALL of the strings to const strings (now we have only half)
         //TODO: 4. maybe put messages in a different class
+        //TODO: 5. add option to vehicle choosing
+        //TODO: 6. add print that operation was successful
+        //TODO: 7. make the class sealed
     {
 		private enum eUserInput
 		{
