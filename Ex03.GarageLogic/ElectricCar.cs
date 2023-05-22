@@ -8,5 +8,8 @@ namespace Ex03.GarageLogic
 {
     public class ElectricCar : Car
     {
+        public ElectricCar(string i_LicenseNumber) : base(i_LicenseNumber)
+        {
+        }
     }
 }
