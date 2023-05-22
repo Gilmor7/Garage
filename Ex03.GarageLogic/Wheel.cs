@@ -90,9 +90,9 @@ The allowed amount is between {0} to {1}",
         public override string ToString()
         {
             string wheelInfo = string.Format(
-                @"Manufacturer name: {0}
-Current air pressure: {1}
-Max air pressure: {2}",
+                @"Wheels Manufacturer name: {0}
+Current wheels air pressure: {1}
+Maximum wheels air pressure: {2}",
                 m_ManufacturerName,
                 m_CurrentAirPressure,
                 r_MaxAirPressure);

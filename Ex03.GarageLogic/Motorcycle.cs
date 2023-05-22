@@ -82,7 +82,19 @@ namespace Ex03.GarageLogic
 
             m_LicenseType = parsedLicenseType;
             m_EngineVolume = parsedEngineVolume;
+        }
 
+        public override string ToString()
+        {
+            string motorcycleInfo = string.Format(
+                @"{0}
+License type: {1}
+Engine capacity in cc.: {2}",
+                base.ToString(),
+                m_LicenseType,
+                m_EngineVolume);
+
+            return motorcycleInfo;
         }
     }
 }
