@@ -8,8 +8,12 @@ namespace Ex03.GarageLogic
 {
     public class FueledTruck : Truck
     {
-        public FueledTruck(string i_LicenseNumber) : base(i_LicenseNumber)
+        private const float k_FuelTankCapacity = 135f;
+        private const Fuel.eFuelType k_FuelType = Fuel.eFuelType.Soler;
+        
+        public FueledTruck(string i_LicensePlate) : base(i_LicensePlate)
         {
+            m_EnergySource = new Fuel(k_FuelType, k_FuelTankCapacity);
         }
     }
 }

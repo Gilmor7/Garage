@@ -1,6 +1,8 @@
 ﻿using System;
 using Ex03.GarageLogic;
 using System.Collections.Generic;
+using System.Text;
+
 namespace Ex03.ConsoleUI
 {
 	public class GarageInterface
@@ -154,6 +156,7 @@ namespace Ex03.ConsoleUI
             }
             else
             {
+                printVehicleTypesMenu();
                 string vehicleTypeStr = askForInputAfterMsg(k_VehicleTypeMsg);
                 if(!Enum.TryParse(vehicleTypeStr, out VehicleFactory.eVehicleTypes vehicleType))
                 {
@@ -166,7 +169,22 @@ namespace Ex03.ConsoleUI
                 updateVehicleStateBasedOnRequirements(vehicleToInsertToGarage);
                 m_Garage.AddVehicle(vehicleToInsertToGarage, ownerName, ownerPhone);
                 m_Garage.ChangeVehicleStatus(licensePlate, GarageVehicle.eStatus.InRepair);
+                Console.WriteLine("Vehicle was added successfully!");
             }
+        }
+
+        private void printVehicleTypesMenu()
+        {
+            StringBuilder vehicleTypesMenu = new StringBuilder();
+            int i = 1;
+
+            foreach (VehicleFactory.eVehicleTypes vehicleType in Enum.GetValues(typeof(VehicleFactory.eVehicleTypes)))
+            {
+                vehicleTypesMenu.AppendLine($"{i}. {vehicleType}");
+                i++;
+            }
+
+            Console.WriteLine(vehicleTypesMenu.ToString());
         }
 
         private void switchVehicleToRepairModeAndInformCustomer(string i_LicensePlate)
@@ -186,13 +204,13 @@ namespace Ex03.ConsoleUI
             {
                 foreach (KeyValuePair<string, string> requirmentPair in requirments)
                 {
-                    Console.WriteLine(requirmentPair.Value + ": ");
+                    Console.WriteLine(requirmentPair.Value);
                     userInput = Console.ReadLine();
                     userValues.Add(requirmentPair.Key, userInput);
                 }
                 try
                 {
-                    i_VehicleToUpdate.SetValuesFromRequirmentes(userValues);
+                    i_VehicleToUpdate.SetValuesFromRequirements(userValues);
                     isUpdatingWasOk = true;
                 }
                 catch(Exception e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -13,53 +14,68 @@ namespace Ex03.GarageLogic
             B1,
         }
 
-        private const float k_MaxWheelAirPressure = 31;
-        private const float k_NumOfWheels = 2;
+        private const float k_MaxWheelAirPressureInMotorcycle = 31;
+        private const int k_NumOfWheelsOnMotorcycle = 2;
         private eLicenseType m_LicenseType;
         private int m_EngineVolume;
 
         protected Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
+            m_NumOfWheels = k_NumOfWheelsOnMotorcycle;
+            m_MaxWheelAirPressure = k_MaxWheelAirPressureInMotorcycle;
             initializeWheels();
-        }
-
-        private void initializeWheels()
-        {
-            for(int i = 0; i < k_NumOfWheels; i++)
-            {
-                r_Wheels.Add(new Wheel(k_MaxWheelAirPressure));
-            }
         }
 
         public override void SetMyRequirements()
         {
             base.SetMyRequirements();
-            m_Requirements.Add("licenseType", "License type");
-            m_Requirements.Add("engineVolume", "Engine volume in cc.");
+            string licenseTypes = constructLicenseTypeString();
+            m_Requirements.Add("licenseType", $"License type ({licenseTypes}):");
+            m_Requirements.Add("engineVolume", "Engine volume in cc. (must be a positive number):");
         }
 
-        public override void SetValuesFromRequirmentes(Dictionary<string, string> i_Requirements)
+        private string constructLicenseTypeString()
         {
-            base.SetValuesFromRequirmentes(i_Requirements);
+            StringBuilder licenseTypeString = new StringBuilder();
+            int numOfLicenseTypes = Enum.GetNames(typeof(eLicenseType)).Length;
+            int i = 0;
+
+            foreach (eLicenseType licenseType in Enum.GetValues(typeof(eLicenseType)))
+            {
+                licenseTypeString.Append(licenseType.ToString());
+                if (i < numOfLicenseTypes - 1)
+                {
+                    licenseTypeString.Append(", ");
+                }
+
+                i++;
+            }
+
+            return licenseTypeString.ToString();
+        }
+
+        public override void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
+        {
+            base.SetValuesFromRequirements(i_Requirements);
             string licenseType = i_Requirements["licenseType"];
             string engineVolume = i_Requirements["engineVolume"];
-            
-            if(!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
+
+            if (!Enum.TryParse(licenseType, out eLicenseType parsedLicenseType))
             {
                 throw new FormatException("Invalid license type");
             }
-            
-            if(!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
+
+            if (!Enum.IsDefined(typeof(eLicenseType), parsedLicenseType))
             {
                 throw new ArgumentException("Invalid license type");
             }
-            
-            if(!int.TryParse(engineVolume, out int parsedEngineVolume))
+
+            if (!int.TryParse(engineVolume, out int parsedEngineVolume))
             {
                 throw new FormatException("Invalid engine volume");
             }
-            
-            if(parsedEngineVolume < 0)
+
+            if (parsedEngineVolume < 0)
             {
                 throw new ArgumentException("Invalid engine volume");
             }
@@ -67,11 +83,6 @@ namespace Ex03.GarageLogic
             m_LicenseType = parsedLicenseType;
             m_EngineVolume = parsedEngineVolume;
 
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
         }
     }
 }

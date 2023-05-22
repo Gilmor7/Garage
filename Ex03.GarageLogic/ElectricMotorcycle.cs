@@ -4,7 +4,7 @@ namespace Ex03.GarageLogic
 {
     public class ElectricMotorcycle : Motorcycle
     {
-        private const float k_MaxHoursBatteryTime = 6.4f;
+        private const float k_MaxHoursBatteryTime = 2.6f;
 
         public ElectricMotorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {

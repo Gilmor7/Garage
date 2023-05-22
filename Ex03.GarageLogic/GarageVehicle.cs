@@ -66,16 +66,6 @@ namespace Ex03.GarageLogic
             r_Vehicle.InflateWheelsToMax();
         }
 
-        public void FillEnergySource(float i_AmountToFill)
-        {
-            r_Vehicle.FillEnergySource(i_AmountToFill);
-        }
-
-        public VehicleEnergySource GetEnergySource()
-        {
-            return r_Vehicle.EnergySource;
-        }
-
         public override string ToString()
         {
             string fullVehicleInfo = string.Format(
