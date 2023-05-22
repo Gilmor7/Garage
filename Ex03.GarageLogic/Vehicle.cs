@@ -102,17 +102,13 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            StringBuilder wheelsData = new StringBuilder();
-            foreach (Wheel wheel in Wheels)
-            {
-                wheelsData.AppendLine(wheel.ToString());
-            }
-
+            string wheelsData = r_Wheels[0].ToString();
             string vehicleInfo = string.Format(
                 @"License Number: {0}
 Model name: {1}
 Percentage of energy left: {2}%
-{3}{4}",
+{3}
+{4}",
                 r_LicenseNumber,
                 m_ModelName,
                 m_CurrentEnergyPercentage,
