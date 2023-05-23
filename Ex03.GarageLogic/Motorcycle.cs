@@ -68,9 +68,14 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Invalid license type");
             }
 
-            if (!int.TryParse(engineVolume, out int parsedEngineVolume) || parsedEngineVolume < 0)
+            if (!int.TryParse(engineVolume, out int parsedEngineVolume))
             {
-                throw new FormatException("Invalid engine volume");
+                throw new FormatException("Invalid engine volume, must be a number");
+            }
+
+            if (parsedEngineVolume < 0)
+            {
+                throw new ArgumentException("Invalid engine volume, must be a positive number");
             }
 
             m_LicenseType = parsedLicenseType;
