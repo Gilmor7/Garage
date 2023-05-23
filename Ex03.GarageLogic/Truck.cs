@@ -9,11 +9,10 @@ namespace Ex03.GarageLogic
         private const float k_MaxWheelAirPressureInTruck = 26;
         private bool m_IsCarryingToxicMaterials;
         private float m_CargoVolume;
+
         protected Truck(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_NumOfWheels = k_NumOfWheelsOnTruck;
-            m_MaxWheelAirPressure = k_MaxWheelAirPressureInTruck;
-            initializeWheels();
+            InitializeWheels(k_NumOfWheelsOnTruck, k_MaxWheelAirPressureInTruck);
         }
         
         public override void SetMyRequirements()
@@ -41,7 +40,7 @@ namespace Ex03.GarageLogic
             
             if (parsedCargoVolume < 0)
             {
-                throw new ArgumentException("Invalid input, cargo volume must be positive");
+                throw new ArgumentException("Invalid input, cargo volume must be a positive number");
             }
             
             m_IsCarryingToxicMaterials = parsedIsCarryingToxicMaterials;

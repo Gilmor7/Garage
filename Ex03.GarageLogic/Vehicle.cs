@@ -12,8 +12,6 @@ namespace Ex03.GarageLogic
         protected readonly List<Wheel> r_Wheels;
         protected VehicleEnergySource m_EnergySource;
         private float m_CurrentEnergyPercentage;
-        protected float m_MaxWheelAirPressure;
-        protected int m_NumOfWheels;
 
         protected Vehicle(string i_LicenseNumber)
         {
@@ -112,11 +110,11 @@ namespace Ex03.GarageLogic
             m_ModelName = i_Requirements["modelName"];
         }
         
-        protected void initializeWheels()
+        protected void InitializeWheels(int i_NumOfWheels, float i_MaxWheelAirPressure)
         {
-            for(int i = 0; i < m_NumOfWheels; i++)
+            for(int i = 0; i < i_NumOfWheels; i++)
             {
-                r_Wheels.Add(new Wheel(m_MaxWheelAirPressure));
+                r_Wheels.Add(new Wheel(i_MaxWheelAirPressure));
             }
         }
 
@@ -126,14 +124,16 @@ namespace Ex03.GarageLogic
             string vehicleInfo = string.Format(
                 @"License Number: {0}
 Model name: {1}
+Number of wheels: {2}
 {3}
 {4}
-Percentage of energy left: {2}%",
+Percentage of energy left: {5}%",
                 r_LicenseNumber,
                 m_ModelName,
-                m_CurrentEnergyPercentage,
+                r_Wheels.Count,
                 wheelsData,
-                m_EnergySource.ToString());
+                m_EnergySource.ToString(),
+                m_CurrentEnergyPercentage);
 
             return vehicleInfo;
         }

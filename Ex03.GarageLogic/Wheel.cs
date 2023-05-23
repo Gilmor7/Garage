@@ -87,19 +87,6 @@ The allowed amount is between {0} to {1}",
             return r_Requirements;
         }
 
-        public override string ToString()
-        {
-            string wheelInfo = string.Format(
-                @"Wheels Manufacturer name: {0}
-Current wheels air pressure: {1}
-Maximum wheels air pressure: {2}",
-                m_ManufacturerName,
-                m_CurrentAirPressure,
-                r_MaxAirPressure);
-
-            return wheelInfo;
-        }
-
         public void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
         {
             string tireManufacturer = i_Requirements["manufacturerName"];
@@ -112,6 +99,19 @@ Maximum wheels air pressure: {2}",
 
             setCurrentAirPressure(parsedTirePressure, r_MaxAirPressure);
             m_ManufacturerName = tireManufacturer;
+        }
+
+        public override string ToString()
+        {
+            string wheelInfo = string.Format(
+                @"Wheels manufacturer name: {0}
+Current wheels air pressure: {1}
+Maximum wheels air pressure: {2}",
+                m_ManufacturerName,
+                m_CurrentAirPressure,
+                r_MaxAirPressure);
+
+            return wheelInfo;
         }
     }
 }

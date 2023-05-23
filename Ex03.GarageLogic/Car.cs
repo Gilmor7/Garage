@@ -27,18 +27,17 @@ namespace Ex03.GarageLogic
         private eColor m_Color;
         private eNumOfDoors m_NumOfDoors;
 
-        public Car(string i_LicensePlate) : base(i_LicensePlate)
+        protected Car(string i_LicensePlate) : base(i_LicensePlate)
         {
-            m_NumOfWheels = k_NumOfWheelsOnCar;
-            m_MaxWheelAirPressure = k_MaxWheelAirPressureInCar;
-            initializeWheels();
+            InitializeWheels(k_NumOfWheelsOnCar, k_MaxWheelAirPressureInCar);
         }
         
         public override void SetMyRequirements()
         {
-            base.SetMyRequirements();
             string colors = constructColorString();
             string numOfDoors = constructNumOfDoorsString();
+
+            base.SetMyRequirements();
             m_Requirements.Add("color", $"Color ({colors}):");
             m_Requirements.Add("numOfDoors", $"Number of doors ({numOfDoors}):");
         }
