@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
                                                                          {
                                                                              { "currentAmount", "Current energy amount" },
                                                                          };
-        private const float k_MinAmount = 0;
+        private const float k_MinAmount = 0f;
         private readonly float r_MaxCapacity;
         private float m_CurrentAmount;
 

@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
                                                                       { "manufacturerName", "Wheels Manufacturer Name:" },
                                                                       { "currentAirPressure", "Current Wheels Air pressure:" },
                                                                   };
-        private const float k_MinAirPressure = 0;
+        private const float k_MinAirPressure = 0f;
         private readonly float r_MaxAirPressure;
         private string m_ManufacturerName;
         private float m_CurrentAirPressure;

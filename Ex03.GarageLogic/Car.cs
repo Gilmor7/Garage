@@ -22,7 +22,7 @@ namespace Ex03.GarageLogic
             Five = 5
         }
         
-        private const float k_MaxWheelAirPressureInCar = 33;
+        private const float k_MaxWheelAirPressureInCar = 33f;
         private const int k_NumOfWheelsOnCar = 5;
         private eColor m_Color;
         private eNumOfDoors m_NumOfDoors;
@@ -34,54 +34,14 @@ namespace Ex03.GarageLogic
         
         public override void SetMyRequirements()
         {
-            string colors = constructColorString();
-            string numOfDoors = constructNumOfDoorsString();
+            string colors = Utils.constructEnumMessageString<eColor>();
+            string numOfDoors = Utils.constructEnumMessageString<eNumOfDoors>();
 
             base.SetMyRequirements();
             r_Requirements.Add("color", $"Color ({colors}):");
             r_Requirements.Add("numOfDoors", $"Number of doors ({numOfDoors}):");
         }
-        
-        private string constructColorString()
-        {
-            StringBuilder colorString = new StringBuilder();
-            int numOfColors = Enum.GetNames(typeof(eColor)).Length;
-            int i = 0;
-            
-            foreach (eColor color in Enum.GetValues(typeof(eColor)))
-            {
-                colorString.Append(color.ToString());
-                if (i < numOfColors - 1)
-                {
-                    colorString.Append(", ");
-                }
-                
-                i++;
-            }
-            
-            return colorString.ToString();
-        }
-        
-        private string constructNumOfDoorsString()
-        {
-            StringBuilder numOfDoorsString = new StringBuilder();
-            int numOfNumOfDoors = Enum.GetNames(typeof(eNumOfDoors)).Length;
-            int i = 0;
-            
-            foreach (eNumOfDoors numOfDoors in Enum.GetValues(typeof(eNumOfDoors)))
-            {
-                numOfDoorsString.Append(numOfDoors.ToString());
-                if (i < numOfNumOfDoors - 1)
-                {
-                    numOfDoorsString.Append(", ");
-                }
-                
-                i++;
-            }
-            
-            return numOfDoorsString.ToString();
-        }
-        
+
         public override void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
         {
             base.SetValuesFromRequirements(i_Requirements);
