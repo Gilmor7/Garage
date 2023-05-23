@@ -83,6 +83,10 @@ namespace Ex03.GarageLogic
 
         public void FillEnergySource(float i_AmountToAdd)
         {
+            if(i_AmountToAdd < 0)
+            {
+                throw new ArgumentException("The amount to add must be positive");
+            }
             m_EnergySource.Fill(i_AmountToAdd);
             setCurrentEnergyPercentage();
         }

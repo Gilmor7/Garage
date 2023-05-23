@@ -74,7 +74,8 @@ namespace Ex03.ConsoleUI
                 if (!Enum.IsDefined(typeof(eUserInput), inputAsEnum) || inputAsEnum == eUserInput.None)
                 {
                     throw new ValueOutOfRangeException(k_MinMenuOption,
-                        k_MaxMenuOption, GarageMessages.ErrorMessages.k_ValueOutOfRange);
+                        k_MaxMenuOption,
+                        GarageMessages.ErrorMessages.GenerateValueOutOfRangeMsg(k_MinMenuOption, k_MaxMenuOption));
                 }
                 
                 isValidInput = true;
@@ -187,6 +188,40 @@ namespace Ex03.ConsoleUI
 
         private void showFilteredVehicleList()
         {
+            string userInput = askForInputAfterMsg(GarageMessages.k_GetAllOrFilterByStatus);
+            
+            if(!bool.TryParse(userInput, out bool isFilteringByStatus))
+            {
+                throw new FormatException(GarageMessages.ErrorMessages.k_InvalidBoolInput);
+            }
+
+            List<string> filteredLicenseNumbers;
+            
+            if (isFilteringByStatus)
+            {
+                filteredLicenseNumbers = filterByStatus();
+            }
+            else
+            {
+                filteredLicenseNumbers = showAllVehicles();
+            }
+            
+            if (filteredLicenseNumbers.Count == 0)
+            {
+                Console.WriteLine(GarageMessages.k_NoVehiclesFound);
+            }
+            else
+            {
+                Console.WriteLine("The vehicles are:");
+                foreach (string licenseNumber in filteredLicenseNumbers)
+                {
+                    Console.WriteLine(licenseNumber);
+                }
+            }
+        }
+
+        private List<string> filterByStatus()
+        {
             string statusList = constructEnumValuesMsg<GarageVehicle.eStatus>();
             Console.WriteLine(statusList);
             string statusStr = askForInputAfterMsg(GarageMessages.k_FilterByStatusMsg);
@@ -195,21 +230,12 @@ namespace Ex03.ConsoleUI
                 throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidStatus);
             }
 
-            List<string> filteredVehicles = r_Garage.GetLicenseNumberListFilteredByStatus(status);
-
-            if (filteredVehicles.Count == 0)
-            {
-                Console.WriteLine("No vehicles found with the specified status.");
-            }
-            else
-            {
-                Console.WriteLine("Vehicles with status {0}:", status);
-                
-                foreach (string licensePlate in filteredVehicles)
-                {
-                    Console.WriteLine("License Plate: " + licensePlate);
-                }
-            }
+            return r_Garage.GetLicenseNumberListFilteredByStatus(status);
+        }
+        
+        private List<string> showAllVehicles()
+        {
+            return r_Garage.GetLicenseNumberListFilteredByStatus(null);
         }
 
         private void changeVehicleStatus()
@@ -232,6 +258,7 @@ namespace Ex03.ConsoleUI
         {
             string licensePlate = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
             r_Garage.InflateVehicleWheelsToMax(licensePlate);
+            Console.WriteLine("Vehicle tires successfully filled to max.\n");
         }
 
         private void getFullVehicleInfo()

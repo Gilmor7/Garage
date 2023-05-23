@@ -12,11 +12,13 @@ namespace Ex03.ConsoleUI
         public const string k_ExistingVehicleStatusChangeToRepair = "Updating vehicle's status to repair.";
         public const string k_StatusChangeMsg = "Enter new status for the vehicle: ";
         public const string k_FilterByStatusMsg = "Enter status to filter by: ";
+        public const string k_GetAllOrFilterByStatus = "Do you want to filter by status? (true/false): ";
+        public const string k_NoVehiclesFound = "No vehicles found";
 
         public static string[] s_MenuMessages =
         {
             "1. Add a new vehicle",
-            "2. Show all vehicles filtered by status",
+            "2. Show vehicles in the garage (all/filtered by status)",
             "3. Change a vehicle status",
             "4. Fill a vehicle's tires pressure to the max",
             "5. Fuel a vehicle",
@@ -36,6 +38,12 @@ namespace Ex03.ConsoleUI
             public const string k_InvalidAmountOfMinutes = "Invalid amount of minutes!";
             public const string k_InvalidFuelType = "Invalid Fuel type!";
             public const string k_InvalidFuelAmount = "Invalid Fuel Amount!";
+            public const string k_InvalidBoolInput = "Invalid input. Please enter true or false";
+            
+            public static string GenerateValueOutOfRangeMsg(int i_minBound, int i_maxBound)
+            {
+                return string.Format("{0}{1} to {2}", k_ValueOutOfRange, i_minBound, i_maxBound);
+            }
         }
     }
 }
