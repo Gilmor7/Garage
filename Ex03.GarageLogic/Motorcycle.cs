@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
             B1,
         }
 
-        private const float k_MaxWheelAirPressureInMotorcycle = 31;
+        private const float k_MaxWheelAirPressureInMotorcycle = 31f;
         private const int k_NumOfWheelsOnMotorcycle = 2;
         private eLicenseType m_LicenseType;
         private int m_EngineVolume;
@@ -27,29 +27,9 @@ namespace Ex03.GarageLogic
         public override void SetMyRequirements()
         {
             base.SetMyRequirements();
-            string licenseTypes = constructLicenseTypeString();
-            m_Requirements.Add("licenseType", $"License type ({licenseTypes}):");
-            m_Requirements.Add("engineVolume", "Engine volume in cc. (must be a positive number):");
-        }
-
-        private string constructLicenseTypeString()
-        {
-            StringBuilder licenseTypeString = new StringBuilder();
-            int numOfLicenseTypes = Enum.GetNames(typeof(eLicenseType)).Length;
-            int i = 0;
-
-            foreach (eLicenseType licenseType in Enum.GetValues(typeof(eLicenseType)))
-            {
-                licenseTypeString.Append(licenseType.ToString());
-                if (i < numOfLicenseTypes - 1)
-                {
-                    licenseTypeString.Append(", ");
-                }
-
-                i++;
-            }
-
-            return licenseTypeString.ToString();
+            string licenseTypes = Utils.constructEnumMessageString<eLicenseType>();
+            r_Requirements.Add("licenseType", $"License type ({licenseTypes}):");
+            r_Requirements.Add("engineVolume", "Engine volume in cc. (must be a positive number):");
         }
 
         public override void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
@@ -68,9 +48,14 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Invalid license type");
             }
 
-            if (!int.TryParse(engineVolume, out int parsedEngineVolume) || parsedEngineVolume < 0)
+            if (!int.TryParse(engineVolume, out int parsedEngineVolume))
             {
-                throw new FormatException("Invalid engine volume");
+                throw new FormatException("Invalid engine volume, must be a number");
+            }
+
+            if (parsedEngineVolume < 0)
+            {
+                throw new ArgumentException("Invalid engine volume, must be a positive number");
             }
 
             m_LicenseType = parsedLicenseType;

@@ -5,7 +5,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        protected Dictionary<string, string> m_Requirements = null;
+        protected readonly Dictionary<string, string> r_Requirements = null;
 
         private readonly string r_LicenseNumber;
         private string m_ModelName;
@@ -17,7 +17,7 @@ namespace Ex03.GarageLogic
         {
             r_LicenseNumber = i_LicenseNumber;
             r_Wheels = new List<Wheel>();
-            m_Requirements = new Dictionary<string, string>() { };
+            r_Requirements = new Dictionary<string, string>() { };
         }
 
         public List<Wheel> Wheels
@@ -64,7 +64,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_Requirements;
+                return r_Requirements;
             }
         }
 
@@ -89,12 +89,12 @@ namespace Ex03.GarageLogic
 
         public virtual void SetMyRequirements()
         {
-            m_Requirements.Add("modelName", "Model name:");
+            r_Requirements.Add("modelName", "Model name:");
             Dictionary<string, string> wheelsRequirements = r_Wheels[0].GetRequirements();
             Dictionary<string, string> energySourceRequirements = m_EnergySource.GetRequirements();
 
-            Utils.MergeTwoStringsDictionaries(m_Requirements, wheelsRequirements);
-            Utils.MergeTwoStringsDictionaries(m_Requirements, energySourceRequirements);
+            Utils.MergeTwoStringsDictionaries(r_Requirements, wheelsRequirements);
+            Utils.MergeTwoStringsDictionaries(r_Requirements, energySourceRequirements);
         }
 
         public virtual void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)

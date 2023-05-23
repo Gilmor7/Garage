@@ -5,6 +5,7 @@
         public static void Main()
         {
             GarageInterface garageMenu = new GarageInterface();
+            
             garageMenu.RunMenu();
         }
     }
