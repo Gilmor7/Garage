@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -100,32 +99,14 @@ namespace Ex03.GarageLogic
             Utils.MergeTwoStringsDictionaries(m_Requirements, energySourceRequirements);
         }
 
-        public override string ToString()
-        {
-            string wheelsData = r_Wheels[0].ToString();
-            string vehicleInfo = string.Format(
-                @"License Number: {0}
-Model name: {1}
-Percentage of energy left: {2}%
-{3}
-{4}",
-                r_LicenseNumber,
-                m_ModelName,
-                m_CurrentEnergyPercentage,
-                wheelsData,
-                m_EnergySource.ToString());
-
-            return vehicleInfo;
-        }
-
         public virtual void SetValuesFromRequirements(Dictionary<string, string> i_Requirements)
         {
             foreach(Wheel wheel in r_Wheels)
             {
-                wheel.SetValuesFromRequirmentes(i_Requirements);
+                wheel.SetValuesFromRequirements(i_Requirements);
             }
 
-            m_EnergySource.SetValuesFromRequirmentes(i_Requirements);
+            m_EnergySource.SetValuesFromRequirements(i_Requirements);
             setCurrentEnergyPercentage();
 
             m_ModelName = i_Requirements["modelName"];
@@ -137,6 +118,24 @@ Percentage of energy left: {2}%
             {
                 r_Wheels.Add(new Wheel(m_MaxWheelAirPressure));
             }
+        }
+
+        public override string ToString()
+        {
+            string wheelsData = r_Wheels[0].ToString();
+            string vehicleInfo = string.Format(
+                @"License Number: {0}
+Model name: {1}
+{3}
+{4}
+Percentage of energy left: {2}%",
+                r_LicenseNumber,
+                m_ModelName,
+                m_CurrentEnergyPercentage,
+                wheelsData,
+                m_EnergySource.ToString());
+
+            return vehicleInfo;
         }
     }
 }

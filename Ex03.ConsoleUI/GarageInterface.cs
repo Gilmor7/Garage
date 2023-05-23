@@ -192,11 +192,11 @@ namespace Ex03.ConsoleUI
             {
                 userValues.Clear();
                 
-                foreach (KeyValuePair<string, string> requirmentPair in requirments)
+                foreach (KeyValuePair<string, string> requirementPair in requirments)
                 {
-                    Console.WriteLine(requirmentPair.Value);
+                    Console.WriteLine(requirementPair.Value);
                     userInput = Console.ReadLine();
-                    userValues.Add(requirmentPair.Key, userInput);
+                    userValues.Add(requirementPair.Key, userInput);
                 }
                 try
                 {

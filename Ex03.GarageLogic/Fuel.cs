@@ -43,11 +43,9 @@ namespace Ex03.GarageLogic
         {
             string fuelTankInfo = string.Format(
                 @"Fuel Type: {0}
-Current amount of fuel: {1}
-Max amount of fuel: {2}",
+Current amount of fuel in liters: {1}",
                 r_FuelType.ToString(),
-                CurrentAmount,
-                MaxCapacity);
+                CurrentAmount);
 
             return fuelTankInfo;
         }

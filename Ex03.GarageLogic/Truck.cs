@@ -47,5 +47,18 @@ namespace Ex03.GarageLogic
             m_IsCarryingToxicMaterials = parsedIsCarryingToxicMaterials;
             m_CargoVolume = parsedCargoVolume;
         }
+
+        public override string ToString()
+        {
+            string truckInfo = string.Format(
+                @"{0}
+Is carrying dangerous materials: {1}
+Volume of cargo: {2}",
+                base.ToString(),
+                m_IsCarryingToxicMaterials,
+                m_CargoVolume);
+
+            return truckInfo;
+        }
     }
 }

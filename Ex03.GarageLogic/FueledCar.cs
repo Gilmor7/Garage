@@ -12,5 +12,15 @@ namespace Ex03.GarageLogic
         {
             m_EnergySource = new Fuel(k_FuelType, k_FuelTankCapacity);
         }
+
+        public override string ToString()
+        {
+            string info = string.Format(
+                @"Vehicle type: Fuel Car
+{0}",
+                base.ToString());
+
+            return info;
+        }
     }
 }

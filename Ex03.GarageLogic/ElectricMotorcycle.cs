@@ -10,5 +10,15 @@ namespace Ex03.GarageLogic
         {
             m_EnergySource = new Battery(k_MaxHoursBatteryTime);
         }
+
+        public override string ToString()
+        {
+            string info = string.Format(
+                @"Vehicle type: Electric Motorcycle
+{0}",
+                base.ToString());
+
+            return info;
+        }
     }
 }
