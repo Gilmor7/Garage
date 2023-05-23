@@ -21,9 +21,7 @@ namespace Ex03.GarageLogic
 
         protected Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_NumOfWheels = k_NumOfWheelsOnMotorcycle;
-            m_MaxWheelAirPressure = k_MaxWheelAirPressureInMotorcycle;
-            initializeWheels();
+            InitializeWheels(k_NumOfWheelsOnMotorcycle, k_MaxWheelAirPressureInMotorcycle);
         }
 
         public override void SetMyRequirements()
@@ -70,14 +68,9 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Invalid license type");
             }
 
-            if (!int.TryParse(engineVolume, out int parsedEngineVolume))
+            if (!int.TryParse(engineVolume, out int parsedEngineVolume) || parsedEngineVolume < 0)
             {
                 throw new FormatException("Invalid engine volume");
-            }
-
-            if (parsedEngineVolume < 0)
-            {
-                throw new ArgumentException("Invalid engine volume");
             }
 
             m_LicenseType = parsedLicenseType;
