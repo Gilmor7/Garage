@@ -37,14 +37,17 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, GarageVehicle.eStatus i_NewStatus)
         {
-            if (IsVehicleInGarage(i_LicenseNumber))
-            {
-                r_Vehicles[i_LicenseNumber].Status = i_NewStatus;
-            }
-            else
+            if (!IsVehicleInGarage(i_LicenseNumber))
             {
                 throw new ArgumentException(getInvalidLicenseNumberMessage(i_LicenseNumber));
             }
+
+            if (!Enum.IsDefined(typeof(GarageVehicle.eStatus), i_NewStatus))
+            {
+                throw new ArgumentException("Invalid status!");
+            }
+            
+            r_Vehicles[i_LicenseNumber].Status = i_NewStatus;
         }
 
         public void InflateVehicleWheelsToMax(string i_LicenseNumber)

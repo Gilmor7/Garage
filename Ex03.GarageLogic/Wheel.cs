@@ -5,7 +5,7 @@ namespace Ex03.GarageLogic
 {
     public class Wheel
     {
-        private readonly Dictionary<string, string> r_Requirements = new Dictionary<string, string>() //TODO: We have it duplicated a lot ,should it be static? or maybe generated as part of the method get
+        private readonly Dictionary<string, string> r_Requirements = new Dictionary<string, string>()
                                                                   {
                                                                       { "manufacturerName", "Wheels Manufacturer Name:" },
                                                                       { "currentAirPressure", "Current Wheels Air pressure:" },

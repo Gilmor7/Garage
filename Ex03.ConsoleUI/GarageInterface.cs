@@ -6,12 +6,6 @@ using System.Text;
 namespace Ex03.ConsoleUI
 {
 	public sealed class GarageInterface
-        //TODO: 2. add error handeling in all of those options
-        //TODO: 3. change ALL of the strings to const strings (now we have only half)
-        //TODO: 4. maybe put messages in a different class
-        //TODO: 5. add option to vehicle choosing
-        //TODO: 6. add print that operation was successful
-        //TODO: 7. make the class sealed
     {
 		private enum eUserInput
 		{
@@ -25,30 +19,6 @@ namespace Ex03.ConsoleUI
 			GetFullVehicleInfo,
 			ExitTheSystem
 		}
-
-        private const string k_LicensePlateMsg = "Enter license plate: ";
-        private const string k_ElectricCarChargeMsg = "Enter num of minutes to charge the car: ";
-        private const string k_FuelTypeMsg = "Enter type of fuel: ";
-        private const string k_FuelAmountMsg = "Enter amount of fuel: ";
-        private const string k_VehicleTypeMsg = "Enter type of vehicle: ";
-        private const string k_OwnerNameMsg = "Enter owner's name: ";
-        private const string k_OwnerPhoneMsg = "Enter owner's Phone: ";
-        private const string k_ExistingVehicleStatusChangeToRepair = "Updating vehicle's status to repair.";
-        private const string k_StatusChangeMsg = "Enter new status for the vehicle: ";
-        private const string k_FilterByStatusMsg = "Enter status to filter by: ";
-
-        private static string[] s_Messages =
-		{
-			"1. Add a new vehicle",
-			"2. Show all vehicles filtered by status",
-			"3. Change a vehicle status",
-			"4. Fill a vehicle's tires pressure to the max",
-			"5. Fuel a vehicle",
-			"6. Charge an electric vehicle",
-			"7. Get full information about a vehicle",
-			"8. Exit the system",
-			"Pick an option: "
-		};
 
         private const int k_minMenuOption = 1;
         private const int k_maxMenuOption = 8;
@@ -98,12 +68,12 @@ namespace Ex03.ConsoleUI
 
                 if (!Enum.TryParse(userInput, out inputAsEnum))
                 {
-                    throw new FormatException("Invalid input. Please enter a numeric value");
+                    throw new FormatException(GarageMessages.ErrorMessages.k_InvalidInput);
                 }
                 else if (!Enum.IsDefined(typeof(eUserInput), inputAsEnum) || inputAsEnum == eUserInput.None)
                 {
                     throw new ValueOutOfRangeException(k_minMenuOption,
-                        k_maxMenuOption, $"Input not in range of {k_minMenuOption} - {k_maxMenuOption}");
+                        k_maxMenuOption, GarageMessages.ErrorMessages.k_ValueOutOfRange);
                 }
                 else
                 {
@@ -142,13 +112,13 @@ namespace Ex03.ConsoleUI
                 case eUserInput.ExitTheSystem:
                     break;
                 default:
-                    throw new ArgumentException($"Invalid input option: {m_CurrInput}. Please select a valid option from the menu.");
+                    throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidMenuOption);
             }
         }
 
         private void addNewVehicle()
         {
-            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            string licensePlate = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
             bool isVehicleInGarage = r_Garage.IsVehicleInGarage(licensePlate);
 
             if (isVehicleInGarage)
@@ -159,16 +129,16 @@ namespace Ex03.ConsoleUI
             {
                 string carTypes = constructEnumValuesMsg<VehicleFactory.eVehicleTypes>();
                 Console.WriteLine(carTypes);
-                string vehicleTypeStr = askForInputAfterMsg(k_VehicleTypeMsg);
+                string vehicleTypeStr = askForInputAfterMsg(GarageMessages.k_VehicleTypeMsg);
                 if(!Enum.TryParse(vehicleTypeStr, out VehicleFactory.eVehicleTypes vehicleType))
                 {
-                    throw new ArgumentException("Invalid vehicle type!");
+                    throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidVehicleType);
                 }
 
                 Vehicle vehicleToInsertToGarage = VehicleFactory.CreateVehicle(vehicleType, licensePlate);
                 vehicleToInsertToGarage.SetMyRequirements();
-                string ownerName = askForInputAfterMsg(k_OwnerNameMsg);
-                string ownerPhone = askForInputAfterMsg(k_OwnerPhoneMsg);
+                string ownerName = askForInputAfterMsg(GarageMessages.k_OwnerNameMsg);
+                string ownerPhone = askForInputAfterMsg(GarageMessages.k_OwnerPhoneMsg);
                 updateVehicleStateBasedOnRequirements(vehicleToInsertToGarage);
                 r_Garage.AddVehicle(vehicleToInsertToGarage, ownerName, ownerPhone);
                 r_Garage.ChangeVehicleStatus(licensePlate, GarageVehicle.eStatus.InRepair);
@@ -179,7 +149,7 @@ namespace Ex03.ConsoleUI
         private void switchVehicleToRepairModeAndInformCustomer(string i_LicensePlate)
         {
             r_Garage.ChangeVehicleStatus(i_LicensePlate, GarageVehicle.eStatus.InRepair);
-            Console.WriteLine(k_ExistingVehicleStatusChangeToRepair);
+            Console.WriteLine(GarageMessages.k_ExistingVehicleStatusChangeToRepair);
         }
 
         private void updateVehicleStateBasedOnRequirements(Vehicle i_VehicleToUpdate)
@@ -216,11 +186,10 @@ namespace Ex03.ConsoleUI
         {
             string statusList = constructEnumValuesMsg<GarageVehicle.eStatus>();
             Console.WriteLine(statusList);
-            string statusStr = askForInputAfterMsg(k_FilterByStatusMsg);
+            string statusStr = askForInputAfterMsg(GarageMessages.k_FilterByStatusMsg);
             if (!Enum.TryParse(statusStr, out GarageVehicle.eStatus status))
             {
-                Console.WriteLine("Invalid status!");
-                return;
+                throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidStatus);
             }
 
             List<string> filteredVehicles = r_Garage.GetLicenseNumberListFilteredByStatus(status);
@@ -242,13 +211,13 @@ namespace Ex03.ConsoleUI
         private void changeVehicleStatus()
         {
             string vehicleStatusesList = constructEnumValuesMsg<GarageVehicle.eStatus>();
-            string licenseNumber = askForInputAfterMsg(k_LicensePlateMsg);
+            string licenseNumber = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
             Console.WriteLine(vehicleStatusesList);
-            string newStatusStr = askForInputAfterMsg(k_StatusChangeMsg);
+            string newStatusStr = askForInputAfterMsg(GarageMessages.k_StatusChangeMsg);
 
             if (!Enum.TryParse(newStatusStr, out GarageVehicle.eStatus newStatus))
             {
-                throw new ArgumentException("Invalid vehicle type!");
+                throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidStatus);
             }
 
             r_Garage.ChangeVehicleStatus(licenseNumber, newStatus);
@@ -257,24 +226,24 @@ namespace Ex03.ConsoleUI
 
         private void fillVehicleTiresToMax()
         {
-            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            string licensePlate = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
             r_Garage.InflateVehicleWheelsToMax(licensePlate);
         }
 
         private void getFullVehicleInfo()
         {
-            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            string licensePlate = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
             string vehicleInfo = r_Garage.GetVehicleInfo(licensePlate);
             Console.WriteLine(vehicleInfo);
         }
 
         private void chargeVehicle()
         {
-            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
-            string numOfMinutesToCharge = askForInputAfterMsg(k_ElectricCarChargeMsg);
+            string licensePlate = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
+            string numOfMinutesToCharge = askForInputAfterMsg(GarageMessages.k_ElectricCarChargeMsg);
             if(!float.TryParse(numOfMinutesToCharge, out float parsedMinutesToCharge))
             {
-                throw new ArgumentException("Invalid amount of minutes!");
+                throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidAmountOfMinutes);
             }
             else
             {
@@ -286,19 +255,19 @@ namespace Ex03.ConsoleUI
         private void fuelVehicle()
         {
             string fuelTypesList = constructEnumValuesMsg<Fuel.eFuelType>();
-            string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
+            string licensePlate = askForInputAfterMsg(GarageMessages.k_LicensePlateMsg);
             Console.WriteLine(fuelTypesList);
-            string fuelTypeInput = askForInputAfterMsg(k_FuelTypeMsg);
-            string fuelAmountInput = askForInputAfterMsg(k_FuelAmountMsg);
+            string fuelTypeInput = askForInputAfterMsg(GarageMessages.k_FuelTypeMsg);
+            string fuelAmountInput = askForInputAfterMsg(GarageMessages.k_FuelAmountMsg);
 
             if (!Enum.TryParse(fuelTypeInput, out Fuel.eFuelType parsedFuelType))
             {
-                throw new ArgumentException("Invalid Fuel type!");
+                throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidFuelType);
             }
 
             if (!float.TryParse(fuelAmountInput, out float parsedFuelAmount))
             {
-                throw new ArgumentException("Invalid Fuel Amount!");
+                throw new ArgumentException(GarageMessages.ErrorMessages.k_InvalidFuelAmount);
             }
 
             r_Garage.RefuelVehicle(licensePlate, parsedFuelType, parsedFuelAmount);
@@ -330,7 +299,7 @@ namespace Ex03.ConsoleUI
 
         private void displayMenu()
 		{
-			foreach(string msg in s_Messages)
+			foreach(string msg in GarageMessages.s_MenuMessages)
 			{
 				Console.WriteLine(msg);
 			}
