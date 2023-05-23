@@ -54,12 +54,12 @@ namespace Ex03.ConsoleUI
         private const int k_maxMenuOption = 8;
 
 		private eUserInput m_CurrInput;
-		private Garage m_Garage = null;
+		private readonly Garage r_Garage = null;
 
 		public GarageInterface()
 		{
 			m_CurrInput = eUserInput.None;
-			m_Garage = new Garage();
+            r_Garage = new Garage();
 		}
 
 		public void RunMenu()
@@ -80,7 +80,7 @@ namespace Ex03.ConsoleUI
                 {
                     if(m_CurrInput != eUserInput.ExitTheSystem)
                     {
-                        Console.WriteLine("Going back to menu...");
+                        Console.WriteLine("Going back to menu...\n");
                     }
                 }
 			}
@@ -149,7 +149,7 @@ namespace Ex03.ConsoleUI
         private void addNewVehicle()
         {
             string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
-            bool isVehicleInGarage = m_Garage.IsVehicleInGarage(licensePlate);
+            bool isVehicleInGarage = r_Garage.IsVehicleInGarage(licensePlate);
 
             if (isVehicleInGarage)
             {
@@ -166,18 +166,19 @@ namespace Ex03.ConsoleUI
                 }
 
                 Vehicle vehicleToInsertToGarage = VehicleFactory.CreateVehicle(vehicleType, licensePlate);
+                vehicleToInsertToGarage.SetMyRequirements();
                 string ownerName = askForInputAfterMsg(k_OwnerNameMsg);
                 string ownerPhone = askForInputAfterMsg(k_OwnerPhoneMsg);
                 updateVehicleStateBasedOnRequirements(vehicleToInsertToGarage);
-                m_Garage.AddVehicle(vehicleToInsertToGarage, ownerName, ownerPhone);
-                m_Garage.ChangeVehicleStatus(licensePlate, GarageVehicle.eStatus.InRepair);
-                Console.WriteLine("Vehicle was added successfully!");
+                r_Garage.AddVehicle(vehicleToInsertToGarage, ownerName, ownerPhone);
+                r_Garage.ChangeVehicleStatus(licensePlate, GarageVehicle.eStatus.InRepair);
+                Console.WriteLine("Vehicle was added successfully!\n");
             }
         }
 
         private void switchVehicleToRepairModeAndInformCustomer(string i_LicensePlate)
         {
-            m_Garage.ChangeVehicleStatus(i_LicensePlate, GarageVehicle.eStatus.InRepair);
+            r_Garage.ChangeVehicleStatus(i_LicensePlate, GarageVehicle.eStatus.InRepair);
             Console.WriteLine(k_ExistingVehicleStatusChangeToRepair);
         }
 
@@ -222,7 +223,7 @@ namespace Ex03.ConsoleUI
                 return;
             }
 
-            List<string> filteredVehicles = m_Garage.GetLicenseNumberListFilteredByStatus(status);
+            List<string> filteredVehicles = r_Garage.GetLicenseNumberListFilteredByStatus(status);
 
             if (filteredVehicles.Count == 0)
             {
@@ -250,20 +251,20 @@ namespace Ex03.ConsoleUI
                 throw new ArgumentException("Invalid vehicle type!");
             }
 
-            m_Garage.ChangeVehicleStatus(licenseNumber, newStatus);
-            Console.WriteLine("Vehicle status successfully changed.");
+            r_Garage.ChangeVehicleStatus(licenseNumber, newStatus);
+            Console.WriteLine("Vehicle status successfully changed.\n");
         }
 
         private void fillVehicleTiresToMax()
         {
             string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
-            m_Garage.InflateVehicleWheelsToMax(licensePlate);
+            r_Garage.InflateVehicleWheelsToMax(licensePlate);
         }
 
         private void getFullVehicleInfo()
         {
             string licensePlate = askForInputAfterMsg(k_LicensePlateMsg);
-            string vehicleInfo = m_Garage.GetVehicleInfo(licensePlate);
+            string vehicleInfo = r_Garage.GetVehicleInfo(licensePlate);
             Console.WriteLine(vehicleInfo);
         }
 
@@ -277,8 +278,8 @@ namespace Ex03.ConsoleUI
             }
             else
             {
-                m_Garage.ChargeElectricVehicle(licensePlate, parsedMinutesToCharge);
-                Console.WriteLine("Vehicle successfully charged.");
+                r_Garage.ChargeElectricVehicle(licensePlate, parsedMinutesToCharge);
+                Console.WriteLine("Vehicle successfully charged.\n");
             }
         }
 
@@ -300,8 +301,8 @@ namespace Ex03.ConsoleUI
                 throw new ArgumentException("Invalid Fuel Amount!");
             }
 
-            m_Garage.RefuelVehicle(licensePlate, parsedFuelType, parsedFuelAmount);
-            Console.WriteLine("Vehicle successfully fueled.");
+            r_Garage.RefuelVehicle(licensePlate, parsedFuelType, parsedFuelAmount);
+            Console.WriteLine("Vehicle successfully fueled.\n");
         }
         
         private string constructEnumValuesMsg<TEnum>() where TEnum : Enum

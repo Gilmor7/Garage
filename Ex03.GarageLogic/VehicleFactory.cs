@@ -36,7 +36,6 @@ namespace Ex03.GarageLogic
                     break;
             }
 
-            newVehicle.SetMyRequirements();
             return newVehicle;
         }
     }
